@@ -1,6 +1,3 @@
-# CSharpArcitecture2018
+# CSharpCleanArcitecture2020
 
-This Repo is used in the videotutorial about building a Clean Arcitecture Application in .net core:
-https://www.youtube.com/watch?v=dAIpnZ-CsTs&list=PL8jcXf-CLpxqR7d2v7rVyEJn2H7xze_Oz
-
-Have fun :)
+This Repo is uploaded to show how you can filter in a REST API
