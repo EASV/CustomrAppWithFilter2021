@@ -1,0 +1,24 @@
+﻿using System.Collections.Generic;
+using CustomerApp.Core.Entity;
+
+namespace CustomerApp.Core.ApplicationService
+{
+    public interface ICustomerService
+    {
+        //New Customer
+        Customer NewCustomer(string firstName,
+                                string lastName,
+                                string address);
+
+        //Create
+        Customer CreateCustomer(Customer cust);
+        //Read
+        Customer FindCustomerById(int id);
+        FilteredList<Customer> GetAllCustomers(Filter filter);
+        //Update
+        Customer UpdateCustomer(Customer customerUpdate);
+        
+        //Delete
+        Customer DeleteCustomer(int id);
+    }
+}
