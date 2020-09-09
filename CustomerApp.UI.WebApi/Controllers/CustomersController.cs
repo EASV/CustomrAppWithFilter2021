@@ -27,6 +27,10 @@ namespace CustomerApp.UI.WebApi.Controllers
             {
                 return Ok(_customerService.GetAllCustomers(filter));
             }
+            catch (NullReferenceException e)
+            {
+                return StatusCode(404, e.Message);
+            }
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);

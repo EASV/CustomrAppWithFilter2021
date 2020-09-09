@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CustomerApp.Core.ApplicationService.Validators;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
 
@@ -16,7 +17,7 @@ namespace CustomerApp.Core.ApplicationService.Services
             _customerRepo = customerRepository;
         }
 
-        public Customer NewCustomer(string firstName, string lastName, string address)
+        public Customer NewCustomer(string firstName, string lastName, Address address)
         {
             var cust = new Customer()
             {
@@ -28,12 +29,10 @@ namespace CustomerApp.Core.ApplicationService.Services
             return cust;
         }
 
+
         public Customer CreateCustomer(Customer cust)
         {
-            if (cust.Address.Length < 1)
-            {
-                throw new InvalidDataException("Address Length Must be above 1 letter");
-            }
+            new CustomerValidator().Validate(cust);
             return _customerRepo.Create(cust);
         }
 
@@ -42,8 +41,13 @@ namespace CustomerApp.Core.ApplicationService.Services
             return _customerRepo.ReadyById(id);
         }
 
+        
         public FilteredList<Customer> GetAllCustomers(Filter filter)
         {
+            if (filter == null)
+            {
+                throw new NullReferenceException("Filter must exist");
+            }
             if (!string.IsNullOrEmpty(filter.SearchText) && string.IsNullOrEmpty(filter.SearchField))
             {
                 filter.SearchField = "FirstName";

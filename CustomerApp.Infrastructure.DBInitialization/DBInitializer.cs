@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
 
-namespace CustomerApp.Infrastructure.Static.Data
+namespace CustomerApp.Infrastructure.DBInitialization
 {
     public class DBInitializer
     {
@@ -14,48 +15,62 @@ namespace CustomerApp.Infrastructure.Static.Data
 
         public void InitData()
         {
+            var address = new Address
+            {
+                Id = 1,
+                Street = "Øffgade 7",
+                Customers = new List<Customer>()
+            };
+            Customer cust;
             _customerRepository.Create(
-                new Customer()
+                cust = new Customer()
                 {
-                    Address = "Snurfstreet 5",
+                    Address = address,
                     FirstName = "John",
                     LastName = "Bilsson"
                 });
+            address.Customers.Add(cust);
             _customerRepository.Create(
-                new Customer()
+                cust = new Customer()
                 {
-                    Address = "Snurfstreet 3",
+                    Address = address,
                     FirstName = "Bill",
                     LastName = "Bilbo"
                 });
+            address.Customers.Add(cust);
             _customerRepository.Create(
-                new Customer()
+                cust = new Customer()
                 {
-                    Address = "Snurfstreet 2",
+                    Address = address,
                     FirstName = "Bob",
                     LastName = "Snurfheit the 3rd"
                 });
+            address.Customers.Add(cust);
             _customerRepository.Create(
-                new Customer()
+                cust = new Customer()
                 {
-                    Address = "Snurfstreet 234",
+                    Address = address,
                     FirstName = "Little",
                     LastName = "John"
                 });
+            address.Customers.Add(cust);
             _customerRepository.Create(
-                new Customer()
+                cust = new Customer()
                 {
-                    Address = "Snurfstreet 234",
+                    Address = address,
                     FirstName = "Zilbo",
                     LastName = "Zaggins"
                 });
+            address.Customers.Add(cust);
             _customerRepository.Create(
-                new Customer()
+               cust = new Customer()
                 {
-                    Address = "TikkoStreet 22234",
+                    Address = address,
                     FirstName = "Aykoniksotytytjiiimsi",
                     LastName = "OST"
                 });
+            address.Customers.Add(cust);
+
         }
     }
 }

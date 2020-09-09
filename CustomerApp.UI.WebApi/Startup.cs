@@ -1,26 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CustomerApp.Core.ApplicationService;
 using CustomerApp.Core.ApplicationService.Services;
 using CustomerApp.Core.DomainService;
-using CustomerApp.Core.Entity;
-using CustomerApp.Infrastructure.Static.Data;
+using CustomerApp.Infrastructure.DBInitialization;
+using CustomerApp.Infrastructure.MSSQL.Data;
+using CustomerApp.Infrastructure.MSSQL.Data.Repositories;
 using CustomerApp.Infrastructure.Static.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using Newtonsoft.Json;
 
 namespace CustomerApp.UI.WebApi
 {
     public class Startup
     {
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,10 +30,24 @@ namespace CustomerApp.UI.WebApi
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        { 
+            
+            services.AddDbContext<CustomerAppContext>(
+                opt =>
+                {
+                    opt.UseSqlite("Data Source=customerApp.db")
+                        .EnableSensitiveDataLogging(); 
+
+                });
+            
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICustomerService, CustomerService>();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(o => 
+            {
+                o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                // o.SerializerSettings.MaxDepth = 1;
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +59,9 @@ namespace CustomerApp.UI.WebApi
                 
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
+                    var ctx = scope.ServiceProvider.GetService<CustomerAppContext>();
+                    // ctx.Database.EnsureDeleted();
+                    // ctx.Database.EnsureCreated();
                     var repo = scope.ServiceProvider.GetService<ICustomerRepository>();
                     new DBInitializer(repo).InitData();
                 }

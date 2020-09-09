@@ -12,4 +12,7 @@
     <ProjectReference Include="..\CustomerApp.Core.Filter\CustomerApp.Core.Filter.csproj" />
     <ProjectReference Include="..\CustomerApp.Core\CustomerApp.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
+  </ItemGroup>
 </Project>
