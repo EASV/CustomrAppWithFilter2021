@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CustomerApp.Core.Entity;
 
 namespace CustomerApp.Core.DomainService
@@ -7,5 +8,6 @@ namespace CustomerApp.Core.DomainService
         public Address ReadById(int id);
         public Address Create(Address address);
 
+        List<Address> ReadAll();
     }
 }

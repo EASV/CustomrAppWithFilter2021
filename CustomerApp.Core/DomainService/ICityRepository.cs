@@ -7,5 +7,6 @@ namespace CustomerApp.Core.DomainService
     {
         public List<City> GetAll();
         public City Create(City city);
+        public City ReadById(int cityZipCode);
     }
 }

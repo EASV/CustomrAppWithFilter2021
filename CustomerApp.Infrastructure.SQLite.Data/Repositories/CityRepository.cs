@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CustomerApp.Infrastructure.SQLite.Data.Repositories
 {
@@ -23,6 +24,13 @@ namespace CustomerApp.Infrastructure.SQLite.Data.Repositories
             var cityEntry = _ctx.Add(city);
             _ctx.SaveChanges();
             return cityEntry.Entity;
+        }
+
+        public City ReadById(int cityZipCode)
+        {
+            return _ctx.Cities
+                .AsNoTracking()
+                .FirstOrDefault(c => c.ZipCode == cityZipCode);
         }
     }
 }

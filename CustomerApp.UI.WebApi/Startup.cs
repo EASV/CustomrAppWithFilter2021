@@ -43,6 +43,7 @@ namespace CustomerApp.UI.WebApi
                 });
             
             services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();

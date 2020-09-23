@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
@@ -22,9 +23,18 @@ namespace CustomerApp.Infrastructure.SQLite.Data.Repositories
 
         public Address Create(Address address)
         {
+            if (address.City != null)
+            {
+                _ctx.Attach(address.City).State = EntityState.Unchanged;
+            }
             var addressEntry = _ctx.Add(address);
             _ctx.SaveChanges();
             return addressEntry.Entity;
+        }
+
+        public List<Address> ReadAll()
+        {
+            return _ctx.Addresses.ToList();
         }
     }
 }

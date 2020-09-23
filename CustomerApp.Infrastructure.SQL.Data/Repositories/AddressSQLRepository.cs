@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
@@ -19,7 +20,12 @@ namespace CustomerApp.Infrastructure.SQL.Data.Repositories
             _ctx.SaveChanges();
             return addressCreated.Entity;
         }
-        
+
+        public List<Address> ReadAll()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Address ReadById(int id)
         {
             return _ctx.Addresses
