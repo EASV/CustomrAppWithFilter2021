@@ -6,6 +6,7 @@ namespace CustomerApp.Core.Entity
     {
         public int Id { get; set; }
         public string Street { get; set; }
+        public City City { get; set; }
         public List<Customer> Customers { get; set; }
 
     }

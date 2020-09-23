@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CustomerApp.Core.ApplicationService;
 using CustomerApp.Core.Entity;
+using CustomerApp.UI.WebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,10 +22,26 @@ namespace CustomerApp.UI.WebApi.Controllers
         }
         // GET: api/<CustomersController>
         [HttpGet]
-        public ActionResult<FilteredList<Customer>> Get([FromQuery] Filter filter)
+        public ActionResult<FilteredList<CustomerDTO>> Get([FromQuery] Filter filter)
         {
             try
             {
+                var filteredList = _customerService.GetAllCustomers(filter);
+                var list = filteredList.List;
+                var listDTO = new List<CustomerDTO>();
+                foreach (var customer in list)
+                {
+                    listDTO.Add(new CustomerDTO()
+                    {
+                        Id = customer.Id,
+                        Address = $"Street: {customer.Address?.Street}",
+                        FirstName = customer.FirstName
+                    });
+                }
+                var newFitleredList = new FilteredList<CustomerDTO>();
+                newFitleredList.List = listDTO;
+                newFitleredList.FilterUsed = filteredList.FilterUsed;
+                newFitleredList.TotalCount = filteredList.TotalCount;
                 return Ok(_customerService.GetAllCustomers(filter));
             }
             catch (NullReferenceException e)

@@ -2,19 +2,18 @@ using CustomerApp.Core.ApplicationService;
 using CustomerApp.Core.ApplicationService.Services;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Infrastructure.DBInitialization;
-using CustomerApp.Infrastructure.MSSQL.Data;
-using CustomerApp.Infrastructure.MSSQL.Data.Repositories;
+using CustomerApp.Infrastructure.SQLite.Data;
+using CustomerApp.Infrastructure.SQLite.Data.Repositories;
 using CustomerApp.Infrastructure.Static.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using Newtonsoft.Json;
+using CustomerRepository = CustomerApp.Infrastructure.SQLite.Data.Repositories.CustomerRepository;
 
 namespace CustomerApp.UI.WebApi
 {
@@ -30,16 +29,22 @@ namespace CustomerApp.UI.WebApi
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { 
-            
-            services.AddDbContext<CustomerAppContext>(
+        {   var loggerFactory = LoggerFactory.Create(builder => {
+                    builder.AddConsole();
+                }
+            );
+            services.AddDbContext<CustomerAppLiteContext>(
                 opt =>
                 {
-                    opt.UseSqlite("Data Source=customerApp.db")
-                        .EnableSensitiveDataLogging(); 
+                    opt.UseLoggerFactory(loggerFactory)
+                        .AddInterceptors(new DBInterceptor())
+                        .UseSqlite("Data Source=customerApp.db"); 
 
                 });
             
+            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<ICityService, CityService>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddControllers().AddNewtonsoftJson(o => 
@@ -59,11 +64,13 @@ namespace CustomerApp.UI.WebApi
                 
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
-                    var ctx = scope.ServiceProvider.GetService<CustomerAppContext>();
-                    // ctx.Database.EnsureDeleted();
-                    // ctx.Database.EnsureCreated();
-                    var repo = scope.ServiceProvider.GetService<ICustomerRepository>();
-                    new DBInitializer(repo).InitData();
+                    var ctx = scope.ServiceProvider.GetService<CustomerAppLiteContext>(); 
+                    ctx.Database.EnsureDeleted();
+                    ctx.Database.EnsureCreated();
+                    var custRepository = scope.ServiceProvider.GetService<ICustomerRepository>();
+                    var addressRepository = scope.ServiceProvider.GetService<IAddressRepository>();
+                    var cityRepository = scope.ServiceProvider.GetService<ICityRepository>();
+                    new DBInitializer(cityRepository, custRepository, addressRepository).InitData();
                 }
             }
 

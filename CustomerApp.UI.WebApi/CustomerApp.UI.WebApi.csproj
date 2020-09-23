@@ -6,13 +6,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CustomerApp.Infrastructure.DBInitialization\CustomerApp.Infrastructure.DBInitialization.csproj" />
-    <ProjectReference Include="..\CustomerApp.Infrastructure.MSSQL.Data\CustomerApp.Infrastructure.MSSQL.Data.csproj" />
+    <ProjectReference Include="..\CustomerApp.Infrastructure.SQL.Data\CustomerApp.Infrastructure.SQL.Data.csproj" />
+    <ProjectReference Include="..\CustomerApp.Infrastructure.SQLite.Data\CustomerApp.Infrastructure.SQLite.Data.csproj" />
     <ProjectReference Include="..\CustomerApp.Infrastructure.Static.Data\CustomerApp.Infrastructure.Static.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
   </ItemGroup>
 

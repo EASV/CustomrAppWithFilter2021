@@ -11,10 +11,13 @@ namespace CustomerApp.Core.ApplicationService.Services
     public class CustomerService: ICustomerService
     {
         readonly ICustomerRepository _customerRepo;
+        private IAddressRepository _addressRepository;
 
-        public CustomerService(ICustomerRepository customerRepository)
+        public CustomerService(ICustomerRepository customerRepository,
+             IAddressRepository addressRepository)
         {
             _customerRepo = customerRepository;
+            _addressRepository = addressRepository;
         }
 
         public Customer NewCustomer(string firstName, string lastName, Address address)
@@ -33,6 +36,10 @@ namespace CustomerApp.Core.ApplicationService.Services
         public Customer CreateCustomer(Customer cust)
         {
             new CustomerValidator().Validate(cust);
+            if (_addressRepository.ReadById(cust.Address.Id) == null)
+            {
+                throw new NullReferenceException("Address Not found!!");
+            }
             return _customerRepo.Create(cust);
         }
 

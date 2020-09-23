@@ -7,20 +7,34 @@ namespace CustomerApp.Infrastructure.DBInitialization
     public class DBInitializer
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IAddressRepository _addressRepository;
+        private readonly ICityRepository _cityRepository;
 
-        public DBInitializer(ICustomerRepository customerRepository)
+        public DBInitializer(
+                 ICityRepository cityRepository, 
+                 ICustomerRepository customerRepository,
+                 IAddressRepository addressRepository)
         {
             _customerRepository = customerRepository;
+            _addressRepository = addressRepository;
+            _cityRepository = cityRepository;
         }
 
         public void InitData()
         {
+            City city = _cityRepository.Create(new City()
+            {
+                ZipCode = 6000,
+                Name = "Kolding"
+            });
             var address = new Address
             {
                 Id = 1,
                 Street = "Øffgade 7",
-                Customers = new List<Customer>()
+                Customers = new List<Customer>(),
+                City = city
             };
+            _addressRepository.Create(address);
             Customer cust;
             _customerRepository.Create(
                 cust = new Customer()

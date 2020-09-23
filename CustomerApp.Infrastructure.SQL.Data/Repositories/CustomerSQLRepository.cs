@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace CustomerApp.Infrastructure.MSSQL.Data.Repositories
+namespace CustomerApp.Infrastructure.SQL.Data.Repositories
 {
     public class CustomerSQLRepository: ICustomerRepository
     {
@@ -16,6 +17,11 @@ namespace CustomerApp.Infrastructure.MSSQL.Data.Repositories
         }
         public Customer Create(Customer customer)
         {
+            
+            if (customer.Address != null)
+            {
+                _ctx.Attach(customer.Address).State = EntityState.Unchanged;
+            }
             var customerCreated = _ctx.Customers.Add(customer);
             _ctx.SaveChanges();
             return customerCreated.Entity;
@@ -23,7 +29,10 @@ namespace CustomerApp.Infrastructure.MSSQL.Data.Repositories
 
         public Customer ReadyById(int id)
         {
-            return _ctx.Customers.FirstOrDefault(c => c.Id == id);
+            return _ctx.Customers
+                .AsNoTracking()
+                .Include(c => c.Address)
+                .FirstOrDefault(c => c.Id == id);
         }
 
         public FilteredList<Customer> ReadAll(Filter filter)
