@@ -59,6 +59,11 @@ namespace CustomerApp.Core.ApplicationService.Services
             {
                 filter.SearchField = "FirstName";
             }
+
+            if (filter.Price > 0 && filter.Price > 100000000) 
+            {
+                
+            }
             return _customerRepo.ReadAll(filter);
         }
 

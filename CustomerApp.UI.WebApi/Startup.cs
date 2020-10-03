@@ -2,9 +2,8 @@ using CustomerApp.Core.ApplicationService;
 using CustomerApp.Core.ApplicationService.Services;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Infrastructure.DBInitialization;
-using CustomerApp.Infrastructure.SQLite.Data;
-using CustomerApp.Infrastructure.SQLite.Data.Repositories;
-using CustomerApp.Infrastructure.Static.Data.Repositories;
+using CustomerApp.Infrastructure.SQL;
+using CustomerApp.Infrastructure.SQL.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using CustomerRepository = CustomerApp.Infrastructure.SQLite.Data.Repositories.CustomerRepository;
 
 namespace CustomerApp.UI.WebApi
 {
@@ -29,7 +27,7 @@ namespace CustomerApp.UI.WebApi
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {   var loggerFactory = LoggerFactory.Create(builder => {
+        {   /*var loggerFactory = LoggerFactory.Create(builder => {
                     builder.AddConsole();
                 }
             );
@@ -41,12 +39,27 @@ namespace CustomerApp.UI.WebApi
                         .UseSqlite("Data Source=customerApp.db"); 
 
                 });
+            */
+            var loggerFactory = LoggerFactory.Create(builder => {
+                    builder.AddConsole();
+                }
+            );
+            // If Dev Do this
+            services.AddDbContext<CustomerAppDBContext>(
+                opt =>
+                {
+                    opt
+                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                        .UseLoggerFactory(loggerFactory)
+                        .UseSqlite("Data Source=custapp.db");
+                }, ServiceLifetime.Transient);
             
-            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IHatRepository, HatSQLRepository>();
+            services.AddScoped<IAddressRepository, AddressSQLRepository>();
             services.AddScoped<IAddressService, AddressService>();
-            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<ICityRepository, CitySQLRepository>();
             services.AddScoped<ICityService, CityService>();
-            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ICustomerRepository, CustomerSQLRepository>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddControllers().AddNewtonsoftJson(o => 
             {
@@ -65,13 +78,21 @@ namespace CustomerApp.UI.WebApi
                 
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
-                    var ctx = scope.ServiceProvider.GetService<CustomerAppLiteContext>(); 
+                    var ctx = scope.ServiceProvider.GetService<CustomerAppDBContext>();
+                    ctx.Database.EnsureDeleted();
+                    ctx.Database.EnsureCreated();
+                    var hatRepository = scope.ServiceProvider.GetService<IHatRepository>();
+                    var custRepository = scope.ServiceProvider.GetService<ICustomerRepository>();
+                    var addressRepository = scope.ServiceProvider.GetService<IAddressRepository>();
+                    var cityRepository = scope.ServiceProvider.GetService<ICityRepository>();
+                    new DBInitializer(hatRepository, cityRepository, custRepository, addressRepository).InitData();
+                    /*var ctx = scope.ServiceProvider.GetService<CustomerAppLiteContext>(); 
                     ctx.Database.EnsureDeleted();
                     ctx.Database.EnsureCreated();
                     var custRepository = scope.ServiceProvider.GetService<ICustomerRepository>();
                     var addressRepository = scope.ServiceProvider.GetService<IAddressRepository>();
                     var cityRepository = scope.ServiceProvider.GetService<ICityRepository>();
-                    new DBInitializer(cityRepository, custRepository, addressRepository).InitData();
+                    new DBInitializer(cityRepository, custRepository, addressRepository).InitData();*/
                 }
             }
 

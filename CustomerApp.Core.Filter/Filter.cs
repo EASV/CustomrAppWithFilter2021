@@ -8,5 +8,6 @@ namespace CustomerApp.Core.Entity
         public string SearchField { get; set; }
         public int ItemsPrPage { get; set; }
         public int CurrentPage { get; set; }
+        public int Price { get; set; }
     }
 }

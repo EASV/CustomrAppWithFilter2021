@@ -8,6 +8,7 @@
     <ProjectReference Include="..\CustomerApp.Infrastructure.DBInitialization\CustomerApp.Infrastructure.DBInitialization.csproj" />
     <ProjectReference Include="..\CustomerApp.Infrastructure.SQL.Data\CustomerApp.Infrastructure.SQL.Data.csproj" />
     <ProjectReference Include="..\CustomerApp.Infrastructure.SQLite.Data\CustomerApp.Infrastructure.SQLite.Data.csproj" />
+    <ProjectReference Include="..\CustomerApp.Infrastructure.SQL\CustomerApp.Infrastructure.SQL.csproj" />
     <ProjectReference Include="..\CustomerApp.Infrastructure.Static.Data\CustomerApp.Infrastructure.Static.Data.csproj" />
   </ItemGroup>
 

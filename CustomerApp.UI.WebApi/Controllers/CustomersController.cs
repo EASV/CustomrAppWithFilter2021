@@ -34,7 +34,7 @@ namespace CustomerApp.UI.WebApi.Controllers
                     listDTO.Add(new CustomerDTO()
                     {
                         Id = customer.Id,
-                        Address = $"Street: {customer.Address?.Street}",
+                        Address = $"Street: {customer.Address?.StreetName}",
                         FirstName = customer.FirstName
                     });
                 }
