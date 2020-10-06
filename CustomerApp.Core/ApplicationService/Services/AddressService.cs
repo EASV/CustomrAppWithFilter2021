@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.IO;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
@@ -18,15 +20,16 @@ namespace CustomerApp.Core.ApplicationService.Services
         }
         public Address Create(Address address)
         {
-            if (address.City != null)
+            address.City = new City() { ZipCode = 200202};
+            try
             {
-                var city = _cityRepository.ReadById(address.City.ZipCode);
-                if (city == null)
-                {
-                    throw new InvalidDataException("City åhåhåhå");
-                }
+                return _addressRepository.Create(address);
             }
-            return _addressRepository.Create(address);
+            catch (Exception e)
+            {
+                throw  new Exception("Something went wrong in DB");
+            }
+           
         }
 
         public List<Address> GetAll()

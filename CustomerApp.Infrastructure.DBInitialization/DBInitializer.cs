@@ -49,7 +49,6 @@ namespace CustomerApp.Infrastructure.DBInitialization
                 HatType = type
             };
             _hatRepository.Create(hat);
-            
             var hat2 = new Hat()
             {
                 Brand = new Brand(){Id = 1},
@@ -65,7 +64,7 @@ namespace CustomerApp.Infrastructure.DBInitialization
                 Brand = null,
                 Color = null,
                 HatType = new HatType(){Id = 1},
-                Name = hat2.Name
+                Name = "Ostebolle hatten 2.0"
             };
 
             _hatRepository.Update(hat2Updated);
@@ -106,8 +105,8 @@ namespace CustomerApp.Infrastructure.DBInitialization
             {
                 ZipCode = 6000,
                 Name = "Kolding"
-            });
-           /* var listCities = new List<City>();
+            });*/
+            /*var listCities = new List<City>();
             for (int i = 0; i < 20000; i++)
             {
                 listCities.Add(new City()
@@ -116,7 +115,8 @@ namespace CustomerApp.Infrastructure.DBInitialization
                     Name = "osteBy" + i
                 });
             }
-            _cityRepository.CreateAll(listCities);
+            _cityRepository.CreateAll(listCities);*/
+            /*
             var address = new Address
             {
                 Id = 1,

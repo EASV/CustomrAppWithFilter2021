@@ -21,6 +21,8 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
 
         public Address Create(Address address)
         {
+            _ctx.DetachAll();
+            
             _ctx.Attach(address.City).State = EntityState.Unchanged;
             var addressEntry = _ctx.Add(address);
             _ctx.SaveChanges();

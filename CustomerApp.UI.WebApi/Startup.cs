@@ -4,6 +4,7 @@ using CustomerApp.Core.DomainService;
 using CustomerApp.Infrastructure.DBInitialization;
 using CustomerApp.Infrastructure.SQL;
 using CustomerApp.Infrastructure.SQL.Repositories;
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -67,6 +68,21 @@ namespace CustomerApp.UI.WebApi
                 // o.SerializerSettings.MaxDepth = 1;
             });
             
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "CustomerAppAllowSpecificOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
+            services.AddAuthentication(
+                    CertificateAuthenticationDefaults.AuthenticationScheme)
+                .AddCertificate();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,9 +116,9 @@ namespace CustomerApp.UI.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors("CustomerAppAllowSpecificOrigins");
             // localhost/pets
             // localhost/customers
             app.UseEndpoints(endpoints =>

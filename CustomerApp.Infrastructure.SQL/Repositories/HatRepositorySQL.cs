@@ -64,13 +64,56 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
                 typeEntry.State = EntityState.Detached;
             }
 */
-            _ctx.DetachAll();
+            /*_ctx.DetachAll();
             _ctx.Attach(hat.Brand);
             _ctx.Attach(hat.Color);
             _ctx.Attach(hat.HatType);
+*/
+           /* foreach (var entityEntry in _ctx.ChangeTracker.Entries())
+            {
+                entityEntry.State = EntityState.Detached;
+            }*/
+            // If Statement
+            /*if (_ctx.ChangeTracker.Entries<Brand>()
+                    .FirstOrDefault(b => b.Entity.Id == hat.Brand.Id)
+                != null)
+            {
+                _ctx.Entry(hat.Brand).State = EntityState.Modified;
+            }
+            else
+            {
+                _ctx.Attach(hat.Brand).State = EntityState.Unchanged;
 
+            }
+            
+            _ctx.Attach(hat.Color);
+            _ctx.Attach(hat.HatType);
+            _ctx.Attach(hat.Brand);
+            */
+
+            foreach (var entityEntry in _ctx.ChangeTracker.Entries())
+            {
+                entityEntry.State = EntityState.Detached;
+            }
+
+            // hat.Brand = _ctx.Brands.FirstOrDefault(b => b.Id == hat.Brand.Id);
+            if (hat.Brand != null && hat.Brand.Id > 0)
+            {
+                _ctx.Attach(hat.Brand).State = EntityState.Unchanged;
+            }
+            if (hat.Color != null && hat.Color.Id > 0)
+            {
+                _ctx.Attach(hat.Color).State = EntityState.Unchanged;
+            }
+            
+            if (hat.HatType != null && hat.HatType.Id > 0)
+            {
+                _ctx.Attach(hat.HatType).State = EntityState.Unchanged;
+            }
+            
             var entry = _ctx.Add(hat);
- 
+            
+            
             _ctx.SaveChanges();
             return entry.Entity;
         }
@@ -103,6 +146,8 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             //_ctx.Attach(hat.Brand).State = EntityState.Unchanged;
             //_ctx.ChangeTracker.Entries().FirstOrDefault();
             _ctx.DetachAll();
+            
+            
             var entry = _ctx.Update(hat);
             _ctx.Entry(hat).Reference(h => h.Brand).IsModified = true;
             _ctx.Entry(hat).Reference(h => h.Color).IsModified = true;
