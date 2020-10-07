@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CityApp</title>
+</head>
+<body>
+    <h1>Cities</h1>
+    <h3 id="ost"></h3>
+    <h5>
+        <div id="main" class="redcolor">..Loading Data</div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </h5>
+    <script>
+        document.getElementsByClassName("redcolor").item(0);
+        document.getElementById("ost").innerHTML = "oles nye autobil";
+      fetch('https://localhost:5001/api/cities')
+       .then(response => response.json())
+       .then(data => {
+            console.log('data', data);
+            let citiesTable = "";
+            let tableStart = "<table>";
+            let tableClose= "</table>";
+            let tableRowStart = "<tr>";
+            let tableRowEnd = "</tr>";
+            let tableHeaderStart = "<th>";
+            let tableHeaderEnd = "</th>";
+            let tableDataStart = "<td>";
+            let tableDataEnd = "</td>";
+
+            //Add Headers to Table
+            citiesTable +=
+              tableStart +
+              tableRowStart +
+              tableHeaderStart +
+              "Name" +
+              tableHeaderEnd +
+              tableHeaderStart +
+              "ZipCode" +
+              tableHeaderEnd +
+              tableRowEnd;
+            // Add Table data
+            data.forEach((obj) =>  {
+              citiesTable +=
+                tableRowStart +
+                tableDataStart +
+                obj.name +
+                tableDataEnd +
+                tableDataStart +
+                obj.zipCode +
+                tableDataEnd +
+                tableRowEnd;
+            });
+
+            //Close the table
+            citiesTable += tableClose;
+
+            //Append it all to the main div
+            document.getElementById("main").innerHTML = citiesTable;
+        }).catch(err => {
+          console.error(err);
+        })
+        </script>
+    </body>
+</html>
