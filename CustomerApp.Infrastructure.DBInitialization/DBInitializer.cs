@@ -25,7 +25,7 @@ namespace CustomerApp.Infrastructure.DBInitialization
 
         public void InitData()
         {
-            var brand = new Brand()
+            /*var brand = new Brand()
             {
                 Name = "The Brand"
             };
@@ -64,7 +64,7 @@ namespace CustomerApp.Infrastructure.DBInitialization
                 Brand = null,
                 Color = null,
                 HatType = new HatType(){Id = 1},
-                Name = "Ostebolle hatten 2.0"
+                Name = "Ostebollehatten20"
             };
 
             _hatRepository.Update(hat2Updated);
@@ -106,8 +106,8 @@ namespace CustomerApp.Infrastructure.DBInitialization
                 ZipCode = 6000,
                 Name = "Kolding"
             });*/
-            /*var listCities = new List<City>();
-            for (int i = 0; i < 20000; i++)
+            var listCities = new List<City>();
+            for (int i = 0; i < 1000; i++)
             {
                 listCities.Add(new City()
                 {
@@ -115,7 +115,7 @@ namespace CustomerApp.Infrastructure.DBInitialization
                     Name = "osteBy" + i
                 });
             }
-            _cityRepository.CreateAll(listCities);*/
+            _cityRepository.CreateAll(listCities);
             /*
             var address = new Address
             {

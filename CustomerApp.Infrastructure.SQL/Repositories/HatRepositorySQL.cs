@@ -115,6 +115,10 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             
             
             _ctx.SaveChanges();
+            
+            var result = _ctx.Hats.FromSqlInterpolated(
+                $"SELECT * FROM Hats WHERE Name = {hat.Name}");
+
             return entry.Entity;
         }
         public Hat Update(Hat hat)
