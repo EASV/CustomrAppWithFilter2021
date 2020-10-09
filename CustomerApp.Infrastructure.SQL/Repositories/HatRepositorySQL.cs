@@ -91,13 +91,13 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             _ctx.Attach(hat.Brand);
             */
 
-            foreach (var entityEntry in _ctx.ChangeTracker.Entries())
+            /*foreach (var entityEntry in _ctx.ChangeTracker.Entries())
             {
                 entityEntry.State = EntityState.Detached;
-            }
+            }*/
 
             // hat.Brand = _ctx.Brands.FirstOrDefault(b => b.Id == hat.Brand.Id);
-            if (hat.Brand != null && hat.Brand.Id > 0)
+            /*if (hat.Brand != null && hat.Brand.Id > 0)
             {
                 _ctx.Attach(hat.Brand).State = EntityState.Unchanged;
             }
@@ -110,17 +110,17 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             {
                 _ctx.Attach(hat.HatType).State = EntityState.Unchanged;
             }
+            */
             
             var entry = _ctx.Add(hat);
-            
-            
             _ctx.SaveChanges();
             
-            var result = _ctx.Hats.FromSqlInterpolated(
+            /*var result = _ctx.Hats.FromSqlRaw(
                 $"SELECT * FROM Hats WHERE Name = {hat.Name}");
+            */
 
             return entry.Entity;
-        }
+        } 
         public Hat Update(Hat hat)
         {
 
@@ -149,17 +149,21 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             //Anden Hat
             //_ctx.Attach(hat.Brand).State = EntityState.Unchanged;
             //_ctx.ChangeTracker.Entries().FirstOrDefault();
-            _ctx.DetachAll();
+            //_ctx.DetachAll();
             
             
-            var entry = _ctx.Update(hat);
-            _ctx.Entry(hat).Reference(h => h.Brand).IsModified = true;
-            _ctx.Entry(hat).Reference(h => h.Color).IsModified = true;
-            _ctx.Entry(hat).Reference(h => h.HatType).IsModified = true;
+            //var entry = _ctx.Update(hat);
+            
+            //_ctx.Entry(hat).Reference(h => h.Brand).IsModified = true;
+            //_ctx.Entry(hat).Reference(h => h.Color).IsModified = true;
+            //_ctx.Entry(hat).Reference(h => h.HatType).IsModified = true;
             
             /*_ctx.Entry(hat).Reference(h => h.Brand).IsModified = true;
             _ctx.Entry(hat).Reference(h => h.Color).IsModified = true;
             _ctx.Entry(hat).Reference(h => h.HatType).IsModified = true;*/
+            
+            _ctx.DetachAll();
+            var entry = _ctx.Update(hat);
             _ctx.SaveChanges();
             return entry.Entity;
         }

@@ -20,7 +20,6 @@ namespace CustomerApp.Core.ApplicationService.Services
         }
         public Address Create(Address address)
         {
-            address.City = new City() { ZipCode = 200202};
             try
             {
                 return _addressRepository.Create(address);

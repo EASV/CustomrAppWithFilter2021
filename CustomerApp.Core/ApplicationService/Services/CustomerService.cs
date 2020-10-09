@@ -36,7 +36,7 @@ namespace CustomerApp.Core.ApplicationService.Services
         public Customer CreateCustomer(Customer cust)
         {
             new CustomerValidator().Validate(cust);
-            if (_addressRepository.ReadById(cust.Address.Id) == null)
+            if (_addressRepository.ReadById(cust.AddressId) == null)
             {
                 throw new NullReferenceException("Address Not found!!");
             }

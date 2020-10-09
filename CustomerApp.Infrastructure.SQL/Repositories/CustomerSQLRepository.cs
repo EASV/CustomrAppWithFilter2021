@@ -36,7 +36,7 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         
         public Customer Create(Customer customer)
         {
-            _ctx.Attach(customer.Address).State = EntityState.Unchanged;
+            //_ctx.Attach(customer.Address).State = EntityState.Unchanged;
             var customerEntry = _ctx.Add(customer);
             _ctx.SaveChanges();
             return customerEntry.Entity;

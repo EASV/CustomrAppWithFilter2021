@@ -49,21 +49,19 @@ namespace CustomerApp.Infrastructure.DBInitialization
                 HatType = type
             };
             _hatRepository.Create(hat);
+            
             var hat2 = new Hat()
             {
-                Brand = new Brand(){Id = 1},
-                Color = new Color(){Id = 1},
+                BrandId = 1,
+                ColorId = 1,
                 Name = "Hatten Der Kunne finde hjem selv",
-                HatType = new HatType(){Id = 1}
+                HatTypeId = 1
             };
             _hatRepository.Create(hat2);
-            
             var hat2Updated = new Hat
             {
                 Id = hat2.Id,
-                Brand = null,
-                Color = null,
-                HatType = new HatType(){Id = 1},
+                HatTypeId = 1,
                 Name = "Ostebollehatten20"
             };
 
@@ -100,14 +98,15 @@ namespace CustomerApp.Infrastructure.DBInitialization
             };
 
             _hatRepository.Create(hat4);
-
-            City city = _cityRepository.Create(new City()
+            */
+            /*City city = _cityRepository.Create(new City()
             {
                 ZipCode = 6000,
                 Name = "Kolding"
-            });*/
+            });
+            _cityRepository.Create(city);*/
             var listCities = new List<City>();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 5; i++)
             {
                 listCities.Add(new City()
                 {
@@ -116,17 +115,17 @@ namespace CustomerApp.Infrastructure.DBInitialization
                 });
             }
             _cityRepository.CreateAll(listCities);
-            /*
-            var address = new Address
+            /*var address = new Address
             {
                 Id = 1,
                 StreetName = "Øffgade",
                 StreetNr = 7,
                 Additional = "TTL",
                 Customers = new List<Customer>(),
-                City = _cityRepository.ReadById(city.ZipCode)
+                //CityId = city.ZipCode
             };
             _addressRepository.Create(address);
+            /*
             Customer cust;
             _customerRepository.Create(
                 cust = new Customer()

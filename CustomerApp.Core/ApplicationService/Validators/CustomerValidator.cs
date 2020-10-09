@@ -6,9 +6,9 @@ namespace CustomerApp.Core.ApplicationService.Validators
     public class CustomerValidator
     {
         public void Validate(Customer customer) {
-            if (customer.Address == null)
+            if (customer.AddressId < 1)
             {
-                throw new InvalidDataException("Address Length Must be above 1 letter");
+                throw new InvalidDataException("There should alwys be an");
             }
 
         }

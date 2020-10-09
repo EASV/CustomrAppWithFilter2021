@@ -2,64 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CityApp</title>
+    <title>Snurf</title>
+    <style>
+        body {
+            background-color: lightblue;
+            height: 100%;
+            width: 100%;
+        }
+        #main {
+            color: blue;
+        }
+        .food {
+            color: green;
+        }
+        .red-color {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-    <h1>Cities</h1>
-    <h3 id="ost"></h3>
-    <h5>
-        <div id="main" class="redcolor">..Loading Data</div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    </h5>
-    <script>
-        document.getElementsByClassName("redcolor").item(0);
-        document.getElementById("ost").innerHTML = "oles nye autobil";
-      fetch('https://localhost:5001/api/cities')
-       .then(response => response.json())
-       .then(data => {
-            console.log('data', data);
-            let citiesTable = "";
-            let tableStart = "<table>";
-            let tableClose= "</table>";
-            let tableRowStart = "<tr>";
-            let tableRowEnd = "</tr>";
-            let tableHeaderStart = "<th>";
-            let tableHeaderEnd = "</th>";
-            let tableDataStart = "<td>";
-            let tableDataEnd = "</td>";
+<form action="#" onsubmit="createAddress(event)">
+    <label for="fstreetname">Street name:</label><br>
+    <input type="text" id="fstreetname" name="fstreetname" value=""><br>
 
-            //Add Headers to Table
-            citiesTable +=
-              tableStart +
-              tableRowStart +
-              tableHeaderStart +
-              "Name" +
-              tableHeaderEnd +
-              tableHeaderStart +
-              "ZipCode" +
-              tableHeaderEnd +
-              tableRowEnd;
-            // Add Table data
-            data.forEach((obj) =>  {
-              citiesTable +=
-                tableRowStart +
-                tableDataStart +
-                obj.name +
-                tableDataEnd +
-                tableDataStart +
-                obj.zipCode +
-                tableDataEnd +
-                tableRowEnd;
-            });
+    <label for="lstreetnr">Street Number:</label><br>
+    <input type="number" id="lstreetnr" name="lstreetnr" value=""><br><br>
 
-            //Close the table
-            citiesTable += tableClose;
+    <label for="ladditional">Additional Information:</label><br>
+    <input type="text" id="ladditional" name="ladditional" value=""><br><br>
 
-            //Append it all to the main div
-            document.getElementById("main").innerHTML = citiesTable;
+    <label for="lcity">City Id</label><br>
+    <input type="number" id="lcity" name="lcity" value=""><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+
+<div id="main"
+     class="red-color">....loading.....</div>
+
+<button onclick="loadData()">click me1!</button>
+<script>
+    function createAddress(event) {
+        event.preventDefault()
+        let streetName = document.getElementById("fstreetname").value;
+        let streetNr = +document.getElementById("lstreetnr").value;
+        let streetAdditional = document.getElementById("ladditional").value;
+        let cityId = +document.getElementById("lcity").value;
+        let address = {
+            StreetName: streetName,
+            StreetNr: streetNr,
+            Additional: streetAdditional,
+            CityId: cityId
+        }
+
+        fetch("https://localhost:5001/api/cities", {
+            method: "POST",
+            body: JSON.stringify(address)
+        }).then(res => {
+            console.log("Request complete! response:", res);
         }).catch(err => {
-          console.error(err);
-        })
-        </script>
-    </body>
+            console.error(err);
+        });
+    }
+    function loadData() {
+        fetch('https://localhost:5001/api/cities')
+            .then(response => response.json())
+            .then(cities => {
+                console.log(cities);
+                let datatags = "";
+                cities.forEach(city => {
+                    datatags += "<h1>" + city.name + "</h1>"
+                })
+                document.getElementById("main").innerHTML = datatags;
+            })
+
+    }
+</script>
+</body>
 </html>

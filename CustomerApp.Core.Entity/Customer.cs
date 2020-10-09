@@ -8,7 +8,9 @@
 
         public string LastName { get; set; }
 
-        // public int AddressId { get; set; }
+        // CRUD
+        public int AddressId { get; set; }
+        //R
         public Address Address { get; set; }
     }
 }

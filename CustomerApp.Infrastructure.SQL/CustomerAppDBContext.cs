@@ -29,7 +29,8 @@ namespace CustomerApp.Infrastructure.SQL
                 .HasKey(city => new {city.ZipCode});
             modelBuilder.Entity<Address>()
                 .HasOne(a => a.City)
-                .WithMany(c => c.Addresses);
+                .WithMany(c => c.Addresses)
+                .HasForeignKey(a => new {a.CityId});
         }
         
         public DbSet<Customer> Customers { get; set; }
