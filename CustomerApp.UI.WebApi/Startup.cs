@@ -19,12 +19,15 @@ namespace CustomerApp.UI.WebApi
     public class Startup
     {
         
-        public Startup(IConfiguration configuration)
+        
+        public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -45,16 +48,26 @@ namespace CustomerApp.UI.WebApi
                     builder.AddConsole();
                 }
             );
-            // If Dev Do this
-            services.AddDbContext<CustomerAppDBContext>(
-                opt =>
-                {
-                    opt
-                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-                        .UseLoggerFactory(loggerFactory)
-                        .UseSqlite("Data Source=custapp.db");
-                }, ServiceLifetime.Transient);
             
+            if (Environment.IsDevelopment())
+            {
+                // If Dev Do this
+                services.AddDbContext<CustomerAppDBContext>(
+                    opt =>
+                    {
+                        opt
+                            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                            .UseLoggerFactory(loggerFactory)
+                            .UseSqlite("Data Source=custapp.db");
+                    }, ServiceLifetime.Transient);
+            }
+            else
+            {
+                // Azure SQL database:
+                services.AddDbContext<CustomerAppDBContext>(opt =>
+                    opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+            }
+             
             services.AddScoped<IHatRepository, HatSQLRepository>();
             services.AddScoped<IAddressRepository, AddressSQLRepository>();
             services.AddScoped<IAddressService, AddressService>();
@@ -73,11 +86,12 @@ namespace CustomerApp.UI.WebApi
                 options.AddPolicy(name: "CustomerAppAllowSpecificOrigins",
                     builder =>
                     {
-                        builder.AllowAnyOrigin()
+                        builder.WithOrigins("http://localhost:4200", "https://localhost:4200")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
             });
+            
 
             services.AddAuthentication(
                     CertificateAuthenticationDefaults.AuthenticationScheme)
@@ -111,14 +125,22 @@ namespace CustomerApp.UI.WebApi
                     new DBInitializer(cityRepository, custRepository, addressRepository).InitData();*/
                 }
             }
+            else
+            {
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var ctx = scope.ServiceProvider.GetService<CustomerAppDBContext>();
+                    ctx.Database.EnsureCreated();
+                }
+            }
 
             
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("CustomerAppAllowSpecificOrigins");
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("CustomerAppAllowSpecificOrigins");
             // localhost/pets
             // localhost/customers
             app.UseEndpoints(endpoints =>

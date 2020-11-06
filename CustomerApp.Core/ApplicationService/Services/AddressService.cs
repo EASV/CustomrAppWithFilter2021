@@ -26,7 +26,7 @@ namespace CustomerApp.Core.ApplicationService.Services
             }
             catch (Exception e)
             {
-                throw  new Exception("Something went wrong in DB");
+                throw  new Exception(e.Message);
             }
            
         }

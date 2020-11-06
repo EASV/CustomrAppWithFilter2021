@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using CustomerApp.Core.ApplicationService.Exceptions;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +23,21 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
 
         public City Create(City city)
         {
-            var cityEntry = _ctx.Add(city);
+            /*var cityEntry = _ctx.Add(city);
             _ctx.SaveChanges();
             return cityEntry.Entity;
+            */
+            try
+            {
+                var cityEntry = _ctx.Add(city);
+                _ctx.SaveChanges();
+                return cityEntry.Entity;
+            }
+            catch (Exception e)
+            {
+                throw new DataSourceException(e.InnerException.Message);
+            }
+            
         }
         
         public void CreateAll(List<City> cities)
@@ -37,6 +51,24 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             return _ctx.Cities
                 .AsNoTracking()
                 .FirstOrDefault(city => city.ZipCode == cityZipCode);
+        }
+
+        public City Delete(int zipCode)
+        {
+            var city = _ctx.Cities.FirstOrDefault(c => c.ZipCode == zipCode);
+            /*var entry = _ctx.Cities.Attach(new City() {ZipCode = zipCode});
+            entry.State = EntityState.Deleted;
+            
+            //_ctx.RemoveRange(_ctx.Cities.Where(c => c.ZipCode == zipCode));
+            /*var cityToDelete = ReadById(zipCode);
+            var entry = _ctx.Remove(cityToDelete);
+           */
+            //var entry =_ctx.Remove(_ctx.Cities.Single(a => a.ZipCode == zipCode));
+            var entry = _ctx.Remove(new City(){ZipCode = zipCode});
+            _ctx.SaveChanges();
+            //return entry.Entity;
+             return entry.Entity;
+            // return null;
         }
     }
 }
