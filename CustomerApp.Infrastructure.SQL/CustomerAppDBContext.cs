@@ -27,6 +27,9 @@ namespace CustomerApp.Infrastructure.SQL
         {
             modelBuilder.Entity<City>()
                 .HasKey(city => new {city.ZipCode});
+            modelBuilder.Entity<City>()
+                .Property(c => c.ZipCode)
+                .ValueGeneratedNever();
             modelBuilder.Entity<Address>()
                 .HasOne(a => a.City)
                 .WithMany(c => c.Addresses)
