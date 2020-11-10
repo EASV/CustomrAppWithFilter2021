@@ -89,7 +89,7 @@ namespace CustomerApp.UI.WebApi
                 options.AddPolicy(name: "CustomerAppAllowSpecificOrigins",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200", "https://localhost:4200")
+                        builder.WithOrigins("https://cityapp-a46c8.web.app", "http://localhost:4200", "https://localhost:4200")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
