@@ -86,10 +86,17 @@ namespace CustomerApp.UI.WebApi
             
             services.AddCors(options =>
             {
+                options.AddPolicy(name: "CustomerAppDev",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200", "https://localhost:4200")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
                 options.AddPolicy(name: "CustomerAppAllowSpecificOrigins",
                     builder =>
                     {
-                        builder.WithOrigins("https://cityapp-a46c8.web.app", "http://localhost:4200", "https://localhost:4200")
+                        builder.WithOrigins("https://cityapp-a46c8.web.app")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
@@ -108,7 +115,8 @@ namespace CustomerApp.UI.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
+                app.UseCors("CustomerAppDev");
+
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
                     var ctx = scope.ServiceProvider.GetService<CustomerAppDBContext>();
@@ -130,6 +138,7 @@ namespace CustomerApp.UI.WebApi
             }
             else
             {
+                app.UseCors("CustomerAppAllowSpecificOrigins");
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
                     var ctx = scope.ServiceProvider.GetService<CustomerAppDBContext>();
@@ -141,7 +150,6 @@ namespace CustomerApp.UI.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors("CustomerAppAllowSpecificOrigins");
             app.UseAuthentication();
             app.UseAuthorization();
             // localhost/pets
