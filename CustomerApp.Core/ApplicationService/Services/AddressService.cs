@@ -10,13 +10,11 @@ namespace CustomerApp.Core.ApplicationService.Services
     public class AddressService : IAddressService
     {
         private IAddressRepository _addressRepository;
-        private ICityRepository _cityRepository;
 
-        public AddressService(IAddressRepository addressRepository,
-            ICityRepository cityRepository)
+        public AddressService(
+            IAddressRepository addressRepository)
         {
             _addressRepository = addressRepository;
-            _cityRepository = cityRepository;
         }
         public Address Create(Address address)
         {
@@ -34,6 +32,11 @@ namespace CustomerApp.Core.ApplicationService.Services
         public List<Address> GetAll()
         {
             return _addressRepository.ReadAll();
+        }
+
+        public Address GetById(int id)
+        {
+            return _addressRepository.ReadById(id);
         }
     }
 }

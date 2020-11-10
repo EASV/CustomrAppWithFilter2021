@@ -1,5 +1,6 @@
 using CustomerApp.Core.ApplicationService;
 using CustomerApp.Core.ApplicationService.Services;
+using CustomerApp.Core.ApplicationService.Validators;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Infrastructure.DBInitialization;
 using CustomerApp.Infrastructure.SQL;
@@ -73,8 +74,10 @@ namespace CustomerApp.UI.WebApi
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<ICityRepository, CitySQLRepository>();
             services.AddScoped<ICityService, CityService>();
+            services.AddScoped<ICityValidator, CityValidator>();
             services.AddScoped<ICustomerRepository, CustomerSQLRepository>();
             services.AddScoped<ICustomerService, CustomerService>();
+            
             services.AddControllers().AddNewtonsoftJson(o => 
             {
                 o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

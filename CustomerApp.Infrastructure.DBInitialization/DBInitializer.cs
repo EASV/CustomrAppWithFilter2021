@@ -115,14 +115,14 @@ namespace CustomerApp.Infrastructure.DBInitialization
                 });
             }
             _cityRepository.CreateAll(listCities);
-            /*var address = new Address
+            var address = new Address
             {
                 Id = 1,
                 StreetName = "Øffgade",
                 StreetNr = 7,
                 Additional = "TTL",
                 Customers = new List<Customer>(),
-                //CityId = city.ZipCode
+                CityId = 6001
             };
             _addressRepository.Create(address);
             /*

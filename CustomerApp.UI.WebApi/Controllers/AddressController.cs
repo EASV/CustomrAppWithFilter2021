@@ -21,6 +21,12 @@ namespace CustomerApp.UI.WebApi.Controllers
         {
             return Ok(_addressService.GetAll());
         }
+        
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            return Ok(_addressService.GetById(id));
+        }
 
         
         // POST api/<CustomersController>

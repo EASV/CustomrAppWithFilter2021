@@ -9,10 +9,14 @@ namespace CustomerApp.Core.ApplicationService.Services
     public class CityService: ICityService
     {
         private readonly ICityRepository _cityRepository;
+        private readonly ICityValidator _validator;
 
-        public CityService(ICityRepository cityRepository)
+        public CityService(
+            ICityValidator validator, 
+            ICityRepository cityRepository)
         {
-            _cityRepository = cityRepository;
+            _validator = validator ?? throw new NullReferenceException("Validator Cannot be Null");
+            _cityRepository = cityRepository ?? throw new NullReferenceException("CityRepository Cannot be Null");
         }
         
         public List<City> ReadAll()
@@ -22,19 +26,7 @@ namespace CustomerApp.Core.ApplicationService.Services
 
         public City Create(City city)
         {
-            if (string.IsNullOrEmpty(city.Name) || city.ZipCode <= 0)
-            {
-                throw new ArgumentException("Name must be available and Zipcode must be above 0");
-            }
-
-            if (city.ZipCode < 1000 || city.ZipCode > 9999)
-            {
-                throw new ArgumentException("Danish Zipcode must be between 1000 and 9999");
-            }
-            if (city.Name.Length < 2 || city.Name.Length > 30)
-            {
-                throw new ArgumentException("City name must be between 2 and 30 characters");
-            }
+            _validator.DefaultValidation(city);
             return _cityRepository.Create(city);
         }
 
