@@ -10,11 +10,14 @@ namespace CustomerApp.Core.ApplicationService.Services
     public class AddressService : IAddressService
     {
         private IAddressRepository _addressRepository;
+        private IAddressValidator _addressValidator;
 
         public AddressService(
+            IAddressValidator addressValidator,
             IAddressRepository addressRepository)
         {
-            _addressRepository = addressRepository;
+            _addressValidator = addressValidator ?? throw new NullReferenceException("Validator cannot be null");
+            _addressRepository = addressRepository ?? throw new NullReferenceException("Repository cannot be null");
         }
         public Address Create(Address address)
         {
@@ -37,6 +40,13 @@ namespace CustomerApp.Core.ApplicationService.Services
         public Address GetById(int id)
         {
             return _addressRepository.ReadById(id);
+        }
+
+        public Address Update(Address address)
+        {
+            _addressValidator.DefaultValidation(address);
+            
+            return null;
         }
     }
 }

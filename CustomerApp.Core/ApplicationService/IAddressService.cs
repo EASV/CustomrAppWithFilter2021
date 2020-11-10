@@ -10,5 +10,6 @@ namespace CustomerApp.Core.ApplicationService
         List<Address> GetAll();
 
         Address GetById(int id);
+        Address Update(Address address);
     }
 }
