@@ -55,7 +55,7 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
 
         public City Delete(int zipCode)
         {
-            var city = _ctx.Cities.FirstOrDefault(c => c.ZipCode == zipCode);
+            //      var city = _ctx.Cities.FirstOrDefault(c => c.ZipCode == zipCode);
             /*var entry = _ctx.Cities.Attach(new City() {ZipCode = zipCode});
             entry.State = EntityState.Deleted;
             
@@ -69,6 +69,13 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             //return entry.Entity;
              return entry.Entity;
             // return null;
+        }
+
+        public City Update(City cityToUpdate)
+        {
+            var entry = _ctx.Update(cityToUpdate);
+            _ctx.SaveChanges();
+            return entry.Entity;
         }
     }
 }

@@ -9,13 +9,13 @@ namespace CustomerApp.Core.ApplicationService.Services
     public class CityService: ICityService
     {
         private readonly ICityRepository _cityRepository;
-        private readonly ICityValidator _validator;
+        private readonly ICityValidator _cityValidator;
 
         public CityService(
-            ICityValidator validator, 
+            ICityValidator cityValidator,
             ICityRepository cityRepository)
         {
-            _validator = validator ?? throw new NullReferenceException("Validator Cannot be Null");
+            _cityValidator = cityValidator ?? throw new NullReferenceException("Validator Cannot be null");
             _cityRepository = cityRepository ?? throw new NullReferenceException("CityRepository Cannot be Null");
         }
         
@@ -26,7 +26,7 @@ namespace CustomerApp.Core.ApplicationService.Services
 
         public City Create(City city)
         {
-            _validator.DefaultValidation(city);
+            _cityValidator.DefaultValidation(city);
             return _cityRepository.Create(city);
         }
 
@@ -44,6 +44,12 @@ namespace CustomerApp.Core.ApplicationService.Services
                 }
                 return _cityRepository.Delete(zipCode);
             
+        }
+
+        public City Update(City city)
+        {
+            _cityValidator.DefaultValidation(city);
+            return _cityRepository.Update(city);
         }
     }
 }

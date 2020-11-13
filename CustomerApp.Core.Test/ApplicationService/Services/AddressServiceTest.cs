@@ -1,6 +1,7 @@
 using System;
 using CustomerApp.Core.ApplicationService;
 using CustomerApp.Core.ApplicationService.Services;
+using CustomerApp.Core.ApplicationService.Validators;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
 using FluentAssertions;
@@ -37,9 +38,9 @@ namespace CustomerApp.Core.Test.ApplicationService.Services
         [Fact]
         public void Update_WithNullAddress_ShouldThrowException()
         {   
-            var validatorMock = new Mock<IAddressValidator>();
+            var validator = new AddressValidator();
             var repositoryMock = new Mock<IAddressRepository>();
-            IAddressService service = new AddressService(validatorMock.Object, repositoryMock.Object);
+            IAddressService service = new AddressService(validator, repositoryMock.Object);
             Action action = () =>  service.Update(null as Address);
             action.Should().Throw<NullReferenceException>().WithMessage("Address Cannot be Null");
         }

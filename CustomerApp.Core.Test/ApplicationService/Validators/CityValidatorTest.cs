@@ -9,39 +9,26 @@ namespace CustomerApp.Core.Test.ApplicationService.Validators
 {
     public class CityValidatorTest
     {
-        
         [Fact]
-        public void CityValidator_IsOfTypeICityValidator()
+        public void CityValidator_ShouldBeOfTypeICityValidator()
         {
             new CityValidator().Should().BeAssignableTo<ICityValidator>();
         }
 
         [Fact]
-        public void DefaultValidation_WithNullCity_ThrowsException()
+        public void DefaultValidation_WithCityThatsNull_ShouldThrowException()
         {
-            Action action = () =>  new CityValidator().DefaultValidation(null as City);
-            action.Should().Throw<NullReferenceException>().WithMessage("City Cannot be Null");
-        }
-
-        [Fact]
-        public void CityValidator_WithCityWithNoName_ThrowsException()
-        {
-            Action action = () =>  new CityValidator().DefaultValidation(new City());
-            action.Should().Throw<ArgumentException>().WithMessage("Name cannot be empty");
+            ICityValidator cityValidator = new CityValidator();
+            Action action = () => cityValidator.DefaultValidation(null as City);
+            action.Should().Throw<NullReferenceException>().WithMessage("City Cannot be null");
         }
         
         [Fact]
-        public void CityValidator_WithCityWithShortName_ThrowsException()
+        public void DefaultValidation_WithCityHasNoName_ShouldThrowException()
         {
-            Action action = () =>  new CityValidator().DefaultValidation(new City(){Name = "Øh"});
-            action.Should().Throw<ArgumentException>().WithMessage("Name must be more then 2 chars");
-        }
-        
-        [Fact]
-        public void CityValidator_WithCityWithLongName_ThrowsException()
-        {
-            Action action = () =>  new CityValidator().DefaultValidation(new City(){Name = "TheLongNamedCityOf26Charsi"});
-            action.Should().Throw<ArgumentException>().WithMessage("Name Cannot be more then 25 chars");
+            ICityValidator cityValidator = new CityValidator();
+            Action action = () => cityValidator.DefaultValidation(new City(){});
+            action.Should().Throw<ArgumentException>().WithMessage("City Needs a Name");
         }
     }
 }

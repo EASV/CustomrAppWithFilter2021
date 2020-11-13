@@ -10,5 +10,6 @@ namespace CustomerApp.Core.DomainService
         public void CreateAll(List<City> cities);
         public City ReadById(int cityZipCode);
         public City Delete(int zipCode);
+        City Update(City cityToUpdate);
     }
 }

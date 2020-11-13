@@ -10,17 +10,20 @@ namespace CustomerApp.Infrastructure.DBInitialization
         private readonly IAddressRepository _addressRepository;
         private readonly ICityRepository _cityRepository;
         private readonly IHatRepository _hatRepository;
+        private readonly ICountryRepository _countryRepository;
 
         public DBInitializer(
                  IHatRepository hatRepository,
                  ICityRepository cityRepository, 
                  ICustomerRepository customerRepository,
-                 IAddressRepository addressRepository)
+                 IAddressRepository addressRepository,
+                 ICountryRepository countryRepository)
         {
             _hatRepository = hatRepository;
             _customerRepository = customerRepository;
             _addressRepository = addressRepository;
             _cityRepository = cityRepository;
+            _countryRepository = countryRepository;
         }
 
         public void InitData()
@@ -105,13 +108,17 @@ namespace CustomerApp.Infrastructure.DBInitialization
                 Name = "Kolding"
             });
             _cityRepository.Create(city);*/
+            Country country = _countryRepository.Create(new Country() {Name = "Denmark"});
+            _countryRepository.Create(new Country() {Name = "Sweden"});
+            _countryRepository.Create(new Country() {Name = "Norway"});
             var listCities = new List<City>();
             for (int i = 0; i < 5; i++)
             {
                 listCities.Add(new City()
                 {
                     ZipCode = 6001 + i,
-                    Name = "osteBy" + i
+                    Name = "osteBy" + i,
+                    CountryId = country.Id
                 });
             }
             _cityRepository.CreateAll(listCities);

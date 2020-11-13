@@ -9,5 +9,6 @@ namespace CustomerApp.Core.ApplicationService
         City Create(City city);
         City FindCityByZipcode(int zipCode);
         City Delete(int zipCode);
+        City Update(City city);
     }
 }

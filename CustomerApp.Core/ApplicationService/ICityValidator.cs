@@ -4,6 +4,6 @@ namespace CustomerApp.Core.ApplicationService
 {
     public interface ICityValidator
     {
-        public void DefaultValidation(City city);
+        void DefaultValidation(City city);
     }
 }

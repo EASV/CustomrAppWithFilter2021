@@ -57,7 +57,7 @@ namespace CustomerApp.UI.WebApi
                     opt =>
                     {
                         opt
-                            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                            // .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                             .UseLoggerFactory(loggerFactory)
                             .UseSqlite("Data Source=custapp.db");
                     }, ServiceLifetime.Transient);
@@ -72,12 +72,15 @@ namespace CustomerApp.UI.WebApi
             services.AddScoped<IHatRepository, HatSQLRepository>();
             services.AddScoped<IAddressRepository, AddressSQLRepository>();
             services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IAddressValidator, AddressValidator>();
             services.AddScoped<ICityRepository, CitySQLRepository>();
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<ICityValidator, CityValidator>();
             services.AddScoped<ICustomerRepository, CustomerSQLRepository>();
             services.AddScoped<ICustomerService, CustomerService>();
-            
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<ICountryService, CountryService>();
+
             services.AddControllers().AddNewtonsoftJson(o => 
             {
                 o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -126,7 +129,8 @@ namespace CustomerApp.UI.WebApi
                     var custRepository = scope.ServiceProvider.GetService<ICustomerRepository>();
                     var addressRepository = scope.ServiceProvider.GetService<IAddressRepository>();
                     var cityRepository = scope.ServiceProvider.GetService<ICityRepository>();
-                    new DBInitializer(hatRepository, cityRepository, custRepository, addressRepository).InitData();
+                    var countryRepository = scope.ServiceProvider.GetService<ICountryRepository>();
+                    new DBInitializer(hatRepository, cityRepository, custRepository, addressRepository,countryRepository).InitData();
                     /*var ctx = scope.ServiceProvider.GetService<CustomerAppLiteContext>(); 
                     ctx.Database.EnsureDeleted();
                     ctx.Database.EnsureCreated();

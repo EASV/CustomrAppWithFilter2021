@@ -32,7 +32,7 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
 
         public List<Address> ReadAll()
         {
-            throw new System.NotImplementedException();
+            return _ctx.Addresses.ToList();
         }
     }
 }
