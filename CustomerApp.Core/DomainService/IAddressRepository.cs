@@ -9,5 +9,6 @@ namespace CustomerApp.Core.DomainService
         public Address Create(Address address);
 
         List<Address> ReadAll();
+        Address Update(Address address);
     }
 }

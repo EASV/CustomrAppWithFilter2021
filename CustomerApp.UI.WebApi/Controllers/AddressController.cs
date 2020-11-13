@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CustomerApp.Core.ApplicationService;
 using CustomerApp.Core.Entity;
@@ -26,6 +27,25 @@ namespace CustomerApp.UI.WebApi.Controllers
         public IActionResult Get(int id)
         {
             return Ok(_addressService.GetById(id));
+        }
+        
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] Address address)
+        {
+            if (id != address.Id)
+            {
+                return BadRequest("IDs must match");
+            }
+
+            try
+            {
+                return Ok(_addressService.Update(address));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
         

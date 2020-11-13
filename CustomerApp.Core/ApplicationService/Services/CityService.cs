@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CustomerApp.Core.ApplicationService.Exceptions;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
@@ -10,11 +11,14 @@ namespace CustomerApp.Core.ApplicationService.Services
     {
         private readonly ICityRepository _cityRepository;
         private readonly ICityValidator _cityValidator;
+        private ICountryRepository _countryRepository;
 
         public CityService(
+            ICountryRepository countryRepository,
             ICityValidator cityValidator,
             ICityRepository cityRepository)
         {
+            _countryRepository = countryRepository;
             _cityValidator = cityValidator ?? throw new NullReferenceException("Validator Cannot be null");
             _cityRepository = cityRepository ?? throw new NullReferenceException("CityRepository Cannot be Null");
         }
@@ -50,6 +54,18 @@ namespace CustomerApp.Core.ApplicationService.Services
         {
             _cityValidator.DefaultValidation(city);
             return _cityRepository.Update(city);
+            /*try
+            {
+                
+            }
+            catch (DataSourceException ds)
+            {
+    
+            }
+            catch (Exception e)
+            {
+                
+            }*/
         }
     }
 }

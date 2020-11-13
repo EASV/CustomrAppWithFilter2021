@@ -28,6 +28,24 @@ namespace CustomerApp.UI.WebApi.Controllers
             return Ok(_cityService.FindCityByZipcode(zipCode));
         }
 
+        [HttpPut("{zipCode}")]
+        public IActionResult Put(int zipCode, [FromBody] City city)
+        {
+            if (zipCode != city.ZipCode)
+            {
+                return BadRequest("ZipCodes need to match in both url and object");
+            }
+            try
+            {
+                return Ok(_cityService.Update(city));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+        }
+        
         [HttpPost]
         public IActionResult Post(City city)
         {

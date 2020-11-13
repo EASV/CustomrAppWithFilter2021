@@ -36,13 +36,37 @@ namespace CustomerApp.Core.Test.ApplicationService.Services
         }
 
         [Fact]
-        public void Update_WithNullAddress_ShouldThrowException()
+        public void Update_ShouldCallAddressValidatorDefaultValidationWithAddressParam_Once()
         {   
-            var validator = new AddressValidator();
+            var validatorMock = new Mock<IAddressValidator>();
             var repositoryMock = new Mock<IAddressRepository>();
-            IAddressService service = new AddressService(validator, repositoryMock.Object);
-            Action action = () =>  service.Update(null as Address);
-            action.Should().Throw<NullReferenceException>().WithMessage("Address Cannot be Null");
+            IAddressService service = new AddressService(validatorMock.Object, repositoryMock.Object);
+            var address = new Address(){Id = 1, Additional = "Ost", CityId = 1, StreetName = "Osteby", StreetNr = 2};
+            service.Update(address);
+            validatorMock.Verify(validator => validator.DefaultValidation(address), Times.Once);
+        }
+        
+        [Fact]
+        public void Update_ShouldCallAddressRepositoryUpdateWithAddressParam_Once()
+        {   
+            var validatorMock = new Mock<IAddressValidator>();
+            var repositoryMock = new Mock<IAddressRepository>();
+            IAddressService service = new AddressService(validatorMock.Object, repositoryMock.Object);
+            var address = new Address(){Id = 1, Additional = "Ost", CityId = 1, StreetName = "Osteby", StreetNr = 2};
+            service.Update(address);
+            repositoryMock.Verify(repository => repository.Update(address), Times.Once);
+        }
+        
+        [Fact]
+        public void Update_ShouldReturn_UpdatedAddressWithCorrectId()
+        {   
+            var validatorMock = new Mock<IAddressValidator>();
+            var repositoryMock = new Mock<IAddressRepository>();
+            var address = new Address(){Id = 0, Additional = "Ost", CityId = 1, StreetName = "Osteby", StreetNr = 2};
+            repositoryMock.Setup(r => r.Update(address)).Returns(address);
+            IAddressService service = new AddressService(validatorMock.Object, repositoryMock.Object);
+            var updatedAddress = service.Update(address);
+            updatedAddress.Should().Be(address);
         }
     }
 }

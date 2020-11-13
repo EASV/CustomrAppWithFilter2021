@@ -18,7 +18,18 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         }
         public List<City> GetAll()
         {
-            return _ctx.Cities.ToList();
+            return _ctx.Cities
+                .Include(c => c.Country)
+                .Select(c => new City(){
+                     ZipCode = c.ZipCode,
+                     Country = new Country()
+                     {
+                         Name = c.Country != null ?  c.Country.Name : ""
+                     },
+                     CountryId = c.CountryId,
+                     Name = c.Name
+                })
+                .ToList();
         }
 
         public City Create(City city)

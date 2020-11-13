@@ -34,5 +34,12 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         {
             return _ctx.Addresses.ToList();
         }
+
+        public Address Update(Address address)
+        {
+            var entry = _ctx.Update(address);
+            _ctx.SaveChanges();
+            return entry.Entity;
+        }
     }
 }

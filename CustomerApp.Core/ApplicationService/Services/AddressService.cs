@@ -21,6 +21,7 @@ namespace CustomerApp.Core.ApplicationService.Services
         }
         public Address Create(Address address)
         {
+            _addressValidator.DefaultValidation(address);
             try
             {
                 return _addressRepository.Create(address);
@@ -44,9 +45,8 @@ namespace CustomerApp.Core.ApplicationService.Services
 
         public Address Update(Address address)
         {
-            _addressValidator.DefaultValidation(address);
-            
-            return null;
+           _addressValidator.DefaultValidation(address);
+           return _addressRepository.Update(address);
         }
     }
 }
