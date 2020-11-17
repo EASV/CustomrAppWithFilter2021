@@ -5,3 +5,6 @@ DROP TABLE IF EXISTS [dbo].[Hats]
 DROP TABLE IF EXISTS [dbo].[Colors]
 DROP TABLE IF EXISTS [dbo].[Brands]
 DROP TABLE IF EXISTS [dbo].[HatTypes]
+DROP TABLE IF EXISTS [dbo].[Tourists]
+DROP TABLE IF EXISTS [dbo].[Countries]
+

@@ -60,6 +60,8 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         public City ReadById(int cityZipCode)
         {
             return _ctx.Cities
+                .Include(c => c.Tourists)
+                .ThenInclude(t => t.Tourist)
                 .AsNoTracking()
                 .FirstOrDefault(city => city.ZipCode == cityZipCode);
         }
