@@ -19,7 +19,15 @@ namespace CustomerApp.UI.WebApi.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok(_cityService.ReadAll());
+            try
+            {
+                return Ok(_cityService.ReadAll());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            
         }
         
         [HttpGet("{zipCode}")]

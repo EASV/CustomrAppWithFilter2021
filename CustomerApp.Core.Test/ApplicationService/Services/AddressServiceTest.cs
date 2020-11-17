@@ -63,6 +63,7 @@ namespace CustomerApp.Core.Test.ApplicationService.Services
             var validatorMock = new Mock<IAddressValidator>();
             var repositoryMock = new Mock<IAddressRepository>();
             var address = new Address(){Id = 0, Additional = "Ost", CityId = 1, StreetName = "Osteby", StreetNr = 2};
+            var addressCreated = new Address(){Id = 1, Additional = "Ost", CityId = 1, StreetName = "Osteby", StreetNr = 2};
             repositoryMock.Setup(r => r.Update(address)).Returns(address);
             IAddressService service = new AddressService(validatorMock.Object, repositoryMock.Object);
             var updatedAddress = service.Update(address);

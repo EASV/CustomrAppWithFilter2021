@@ -11,14 +11,11 @@ namespace CustomerApp.Core.ApplicationService.Services
     {
         private readonly ICityRepository _cityRepository;
         private readonly ICityValidator _cityValidator;
-        private ICountryRepository _countryRepository;
-
+        
         public CityService(
-            ICountryRepository countryRepository,
             ICityValidator cityValidator,
             ICityRepository cityRepository)
         {
-            _countryRepository = countryRepository;
             _cityValidator = cityValidator ?? throw new NullReferenceException("Validator Cannot be null");
             _cityRepository = cityRepository ?? throw new NullReferenceException("CityRepository Cannot be Null");
         }
