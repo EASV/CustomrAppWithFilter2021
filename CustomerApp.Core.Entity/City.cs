@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.Common;
 
 namespace CustomerApp.Core.Entity
 {
@@ -12,6 +13,6 @@ namespace CustomerApp.Core.Entity
         //Reading Business Object Mapping
         public Country Country { get; set; }
         public List<Address> Addresses { get; set; }
-        // public List<Tourist> Tourists { get; set; }
+        public List<CityTourist> Tourists { get; set; }
     }
 }

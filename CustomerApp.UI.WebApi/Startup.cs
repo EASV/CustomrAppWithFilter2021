@@ -132,7 +132,7 @@ namespace CustomerApp.UI.WebApi
                     var addressRepository = scope.ServiceProvider.GetService<IAddressRepository>();
                     var cityRepository = scope.ServiceProvider.GetService<ICityRepository>();
                     var countryRepository = scope.ServiceProvider.GetService<ICountryRepository>();
-                    new DBInitializer(hatRepository, cityRepository, custRepository, addressRepository,countryRepository).InitData();
+                    new DBInitializer(ctx, hatRepository, cityRepository, custRepository, addressRepository,countryRepository).InitData();
                     /*var ctx = scope.ServiceProvider.GetService<CustomerAppLiteContext>(); 
                     ctx.Database.EnsureDeleted();
                     ctx.Database.EnsureCreated();

@@ -35,8 +35,21 @@ namespace CustomerApp.Infrastructure.SQL
                 .WithMany(c => c.Addresses)
                 .HasForeignKey(a => new {a.CityId})
                 .OnDelete(DeleteBehavior.NoAction);
-                
-                
+
+            modelBuilder.Entity<CityTourist>()
+                .HasOne(c => c.City)
+                .WithMany(ct => ct.Tourists)
+                .HasForeignKey(ct => new {ct.CityId});
+
+            modelBuilder.Entity<CityTourist>()
+                .HasOne(c => c.Tourist)
+                .WithMany(ct => ct.Cities)
+                .HasForeignKey(ct => new {ct.TouristId});
+
+            modelBuilder.Entity<CityTourist>()
+                .HasKey(ct => new {ct.CityId, ct.TouristId});
+
+
         }
         
         public DbSet<Customer> Customers { get; set; }
@@ -48,6 +61,7 @@ namespace CustomerApp.Infrastructure.SQL
         public DbSet<Address> Addresses { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Tourist> Tourists { get; set; }
+        public DbSet<CityTourist> CityTourists { get; set; }
         public DbSet<Country> Countries { get; set; }
     }
 }
