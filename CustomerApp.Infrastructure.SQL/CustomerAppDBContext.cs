@@ -34,7 +34,8 @@ namespace CustomerApp.Infrastructure.SQL
                 .HasOne(a => a.City)
                 .WithMany(c => c.Addresses)
                 .HasForeignKey(a => new {a.CityId});
-        
+                
+                
         }
         
         public DbSet<Customer> Customers { get; set; }
