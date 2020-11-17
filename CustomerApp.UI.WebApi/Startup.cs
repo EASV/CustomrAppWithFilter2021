@@ -66,7 +66,9 @@ namespace CustomerApp.UI.WebApi
             {
                 // Azure SQL database:
                 services.AddDbContext<CustomerAppDBContext>(opt =>
-                    opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+                    opt
+                        .UseLoggerFactory(loggerFactory)
+                        .UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
             }
              
             services.AddScoped<IHatRepository, HatSQLRepository>();

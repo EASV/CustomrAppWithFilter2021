@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS [dbo].[Customers]
+DROP TABLE IF EXISTS [dbo].[Addresses]
+DROP TABLE IF EXISTS [dbo].[Cities]
+DROP TABLE IF EXISTS [dbo].[Hats]
+DROP TABLE IF EXISTS [dbo].[Colors]
+DROP TABLE IF EXISTS [dbo].[Brands]
+DROP TABLE IF EXISTS [dbo].[HatTypes]
