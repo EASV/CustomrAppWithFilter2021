@@ -30,10 +30,15 @@ namespace CustomerApp.Infrastructure.SQL
             modelBuilder.Entity<City>()
                 .Property(c => c.ZipCode)
                 .ValueGeneratedNever();
+            modelBuilder.Entity<Country>()
+                .HasMany<City>(c => c.Cities)
+                .WithOne(c => c.Country)
+                .HasForeignKey(c => new {c.CountryId});
             modelBuilder.Entity<Address>()
                 .HasOne(a => a.City)
                 .WithMany(c => c.Addresses)
                 .HasForeignKey(a => new {a.CityId});
+        
         }
         
         public DbSet<Customer> Customers { get; set; }
