@@ -33,7 +33,8 @@ namespace CustomerApp.Infrastructure.SQL
             modelBuilder.Entity<Address>()
                 .HasOne(a => a.City)
                 .WithMany(c => c.Addresses)
-                .HasForeignKey(a => new {a.CityId});
+                .HasForeignKey(a => new {a.CityId})
+                .OnDelete(DeleteBehavior.NoAction);
                 
                 
         }

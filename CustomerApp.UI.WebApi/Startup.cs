@@ -148,7 +148,7 @@ namespace CustomerApp.UI.WebApi
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
                     var ctx = scope.ServiceProvider.GetService<CustomerAppDBContext>();
-                    //ctx.Database.EnsureCreated();
+                    ctx.Database.EnsureCreated();
                 }
             }
 
