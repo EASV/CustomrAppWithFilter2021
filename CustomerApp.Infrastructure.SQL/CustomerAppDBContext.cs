@@ -44,6 +44,7 @@ namespace CustomerApp.Infrastructure.SQL
 
         public DbSet<Address> Addresses { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<Tourist> Tourists { get; set; }
         public DbSet<Country> Countries { get; set; }
     }
 }
