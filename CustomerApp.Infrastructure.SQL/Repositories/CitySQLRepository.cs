@@ -20,7 +20,7 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         {   return _ctx.Cities
                 .Include(c => c.Tourists)
                 .ThenInclude(ct => ct.Tourist)
-                // .Include(c => c.Country)
+                .Include(c => c.Country)
                 .ToList();
         }
 
