@@ -17,28 +17,15 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             _ctx = ctx;
         }
         public List<City> GetAll()
-        {
-            return _ctx.Cities
+        {   return _ctx.Cities
                 .Include(c => c.Tourists)
-                .Include(c => c.Country)
-                .Select(c => new City(){
-                     ZipCode = c.ZipCode,
-                     Country = new Country()
-                     {
-                         Name = c.Country != null ?  c.Country.Name : ""
-                     },
-                     CountryId = c.CountryId,
-                     Name = c.Name
-                })
+                .ThenInclude(ct => ct.Tourist)
+                // .Include(c => c.Country)
                 .ToList();
         }
 
         public City Create(City city)
         {
-            /*var cityEntry = _ctx.Add(city);
-            _ctx.SaveChanges();
-            return cityEntry.Entity;
-            */
             try
             {
                 var cityEntry = _ctx.Add(city);
@@ -78,6 +65,8 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             var entry = _ctx.Remove(cityToDelete);
            */
             //var entry =_ctx.Remove(_ctx.Cities.Single(a => a.ZipCode == zipCode));
+            // 1: Get rid of all current rows with CityId 7002
+            _ctx.CityTourists.RemoveRange(_ctx.CityTourists.Where(ct => ct.CityId == zipCode));
             var entry = _ctx.Remove(new City(){ZipCode = zipCode});
             _ctx.SaveChanges();
             //return entry.Entity;
@@ -87,6 +76,11 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
 
         public City Update(City cityToUpdate)
         {
+            // 1: Get rid of all current rows with CityId 7002
+            _ctx.CityTourists.RemoveRange(_ctx.CityTourists.Where(ct => ct.CityId == cityToUpdate.ZipCode));
+            // 2: Adding All new Relations to CityTourist
+            _ctx.CityTourists.AddRange(cityToUpdate.Tourists);
+            // 3: Saving updates
             var entry = _ctx.Update(cityToUpdate);
             _ctx.SaveChanges();
             return entry.Entity;

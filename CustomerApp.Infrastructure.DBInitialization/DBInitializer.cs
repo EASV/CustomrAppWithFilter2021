@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
@@ -36,7 +37,7 @@ namespace CustomerApp.Infrastructure.DBInitialization
             _countryRepository.Create(new Country() {Name = "Sweden"});
             _countryRepository.Create(new Country() {Name = "Norway"});
             var listCities = new List<City>();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 10; i++)
             {
                 listCities.Add(new City()
                 {
@@ -49,10 +50,12 @@ namespace CustomerApp.Infrastructure.DBInitialization
 
             var tourist1 = _ctx.Tourists.Add(new Tourist() {Name = "John"}).Entity;
             var tourist2 = _ctx.Tourists.Add(new Tourist() {Name = "Bill"}).Entity;
+            var tourist3 = _ctx.Tourists.Add(new Tourist() {Name = "Bob"}).Entity;
+            var tourist4 = _ctx.Tourists.Add(new Tourist() {Name = "Allan"}).Entity;
             _ctx.SaveChanges();
             
-            _ctx.CityTourists.Add(new CityTourist() {CityId = listCities[0].ZipCode, TouristId = tourist1.Id});
-            _ctx.CityTourists.Add(new CityTourist() {CityId = listCities[0].ZipCode, TouristId = tourist2.Id});
+            _ctx.CityTourists.Add(new CityTourist() {CityId = listCities[0].ZipCode, TouristId = tourist1.Id, VisitDate = DateTime.Now});
+            _ctx.CityTourists.Add(new CityTourist() {CityId = listCities[0].ZipCode, TouristId = tourist2.Id, VisitDate = DateTime.Now.AddYears(-3)});
             //_ctx.CityTourists.Add(new CityTourist() {CityId = listCities[2].ZipCode, TouristId = tourist1.Id});
             //_ctx.CityTourists.Add(new CityTourist() {CityId = listCities[1].ZipCode, TouristId = tourist2.Id});
             _ctx.SaveChanges();

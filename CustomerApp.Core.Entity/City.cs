@@ -14,6 +14,6 @@ namespace CustomerApp.Core.Entity
         public Country Country { get; set; }
         public List<Address> Addresses { get; set; }
         public List<CityTourist> Tourists { get; set; }
-        public List<Tourist> TouristsClean { get; set; }
+        
     }
 }
