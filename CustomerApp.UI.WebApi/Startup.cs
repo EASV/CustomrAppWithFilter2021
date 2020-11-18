@@ -101,7 +101,7 @@ namespace CustomerApp.UI.WebApi
                 options.AddPolicy(name: "CustomerAppAllowSpecificOrigins",
                     builder =>
                     {
-                        builder.WithOrigins("https://cityapp-a46c8.web.app")
+                        builder.WithOrigins("https://cityapp-a46c8.web.app", "https://cityapp2020-af019.web.app")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
