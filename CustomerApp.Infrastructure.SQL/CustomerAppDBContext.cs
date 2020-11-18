@@ -37,6 +37,9 @@ namespace CustomerApp.Infrastructure.SQL
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<CityTourist>()
+                .HasKey(ct => new {ct.CityId, ct.TouristId});
+
+            modelBuilder.Entity<CityTourist>()
                 .HasOne(c => c.City)
                 .WithMany(ct => ct.Tourists)
                 .HasForeignKey(ct => new {ct.CityId});
@@ -45,9 +48,6 @@ namespace CustomerApp.Infrastructure.SQL
                 .HasOne(c => c.Tourist)
                 .WithMany(ct => ct.Cities)
                 .HasForeignKey(ct => new {ct.TouristId});
-
-            modelBuilder.Entity<CityTourist>()
-                .HasKey(ct => new {ct.CityId, ct.TouristId});
 
 
         }

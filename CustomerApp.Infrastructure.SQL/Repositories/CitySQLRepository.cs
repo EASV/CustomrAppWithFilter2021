@@ -61,7 +61,7 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         {
             return _ctx.Cities
                 .Include(c => c.Tourists)
-                //.ThenInclude(t => t.Tourist)
+                .ThenInclude(ct => ct.Tourist)
                 .AsNoTracking()
                 .FirstOrDefault(city => city.ZipCode == cityZipCode);
         }

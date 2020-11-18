@@ -22,6 +22,7 @@ namespace CustomerApp.Core.ApplicationService.Services
         
         public List<City> ReadAll()
         {
+           
             return _cityRepository.GetAll();
         }
 
