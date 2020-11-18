@@ -19,6 +19,7 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         public List<City> GetAll()
         {
             return _ctx.Cities
+                .Include(c => c.Tourists)
                 .Include(c => c.Country)
                 .Select(c => new City(){
                      ZipCode = c.ZipCode,
