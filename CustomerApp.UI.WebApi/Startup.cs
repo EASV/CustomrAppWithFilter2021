@@ -1,3 +1,4 @@
+using AutoMapper;
 using CustomerApp.Core.ApplicationService;
 using CustomerApp.Core.ApplicationService.Services;
 using CustomerApp.Core.ApplicationService.Validators;
@@ -71,7 +72,6 @@ namespace CustomerApp.UI.WebApi
                         .UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
             }
              
-            services.AddScoped<IHatRepository, HatSQLRepository>();
             services.AddScoped<IAddressRepository, AddressSQLRepository>();
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IAddressValidator, AddressValidator>();
@@ -107,7 +107,6 @@ namespace CustomerApp.UI.WebApi
                     });
             });
             
-
             services.AddAuthentication(
                     CertificateAuthenticationDefaults.AuthenticationScheme)
                 .AddCertificate();
@@ -127,12 +126,11 @@ namespace CustomerApp.UI.WebApi
                     var ctx = scope.ServiceProvider.GetService<CustomerAppDBContext>();
                     ctx.Database.EnsureDeleted();
                     ctx.Database.EnsureCreated();
-                    var hatRepository = scope.ServiceProvider.GetService<IHatRepository>();
                     var custRepository = scope.ServiceProvider.GetService<ICustomerRepository>();
                     var addressRepository = scope.ServiceProvider.GetService<IAddressRepository>();
                     var cityRepository = scope.ServiceProvider.GetService<ICityRepository>();
                     var countryRepository = scope.ServiceProvider.GetService<ICountryRepository>();
-                    new DBInitializer(ctx, hatRepository, cityRepository, custRepository, addressRepository,countryRepository).InitData();
+                    new DBInitializer(ctx, cityRepository, custRepository, addressRepository,countryRepository).InitData();
                     /*var ctx = scope.ServiceProvider.GetService<CustomerAppLiteContext>(); 
                     ctx.Database.EnsureDeleted();
                     ctx.Database.EnsureCreated();

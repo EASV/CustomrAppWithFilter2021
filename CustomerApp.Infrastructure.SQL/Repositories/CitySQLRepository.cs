@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using CustomerApp.Core.ApplicationService.Exceptions;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
+using CustomerApp.Infrastructure.SQL.Converters;
+using CustomerApp.Infrastructure.SQL.DBEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CustomerApp.Infrastructure.SQL.Repositories
@@ -11,9 +14,15 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
     public class CitySQLRepository: ICityRepository
     {
         private readonly CustomerAppDBContext _ctx;
-
+        private readonly IMapper _mapper;
         public CitySQLRepository(CustomerAppDBContext ctx)
         {
+            var configuration = new MapperConfiguration(cfg => {
+                cfg.CreateMap<City, CitySql>().ConvertUsing(new CityToCitySqlConverter());
+                cfg.CreateMap<CitySql, City>().ConvertUsing(new CitySqlToCityConverter());
+            });
+            configuration.AssertConfigurationIsValid();
+            _mapper = configuration.CreateMapper();
             _ctx = ctx;
         }
         public List<City> GetAll()
@@ -21,6 +30,7 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
                 .Include(c => c.Tourists)
                 .ThenInclude(ct => ct.Tourist)
                 .Include(c => c.Country)
+                .Select(c => _mapper.Map<CitySql, City>(c))
                 .ToList();
         }
 
@@ -28,50 +38,54 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         {
             try
             {
-                var cityEntry = _ctx.Add(city);
+                var cityEntry = _ctx.Add(_mapper.Map<City, CitySql>(city));
                 _ctx.SaveChanges();
-                return cityEntry.Entity;
+                var newCity = cityEntry.Entity;
+                return _mapper.Map<CitySql, City>(newCity);
             }
             catch (Exception e)
             {
-                throw new DataSourceException(e.InnerException.Message);
+                throw new DataSourceException(e.InnerException?.Message);
             }
             
         }
         
         public void CreateAll(List<City> cities)
         {
-            _ctx.AddRange(cities);
-            _ctx.SaveChanges();
+            if (cities != null)
+            {
+                _ctx.AddRange(cities.Select(city => _mapper.Map<City, CitySql>(city)));
+                _ctx.SaveChanges();
+            }
         }
 
         public City ReadById(int cityZipCode)
         {
-            return _ctx.Cities
-                .Include(c => c.Tourists)
-                .ThenInclude(ct => ct.Tourist)
-                .AsNoTracking()
-                .FirstOrDefault(city => city.ZipCode == cityZipCode);
+            return _ctx.Cities.Select(c => new City()
+            {
+                ZipCode = c.ZipCode,
+                Country = new Country
+                {
+                    Id = c.CountryId
+                },
+                Name = c.Name,
+                TouristsVisits = c.Tourists.Select(ct => new TouristVisit()
+                {
+                    Tourist = new Tourist {
+                        Id = ct.Tourist.Id,
+                        Name = ct.Tourist.Name
+                    },
+                    VisitTime = ct.VisitDate
+                }).ToList()
+            }).FirstOrDefault(city => city.ZipCode == cityZipCode);
         }
 
         public City Delete(int zipCode)
         {
-            //      var city = _ctx.Cities.FirstOrDefault(c => c.ZipCode == zipCode);
-            /*var entry = _ctx.Cities.Attach(new City() {ZipCode = zipCode});
-            entry.State = EntityState.Deleted;
-            
-            //_ctx.RemoveRange(_ctx.Cities.Where(c => c.ZipCode == zipCode));
-            /*var cityToDelete = ReadById(zipCode);
-            var entry = _ctx.Remove(cityToDelete);
-           */
-            //var entry =_ctx.Remove(_ctx.Cities.Single(a => a.ZipCode == zipCode));
-            // 1: Get rid of all current rows with CityId 7002
             _ctx.CityTourists.RemoveRange(_ctx.CityTourists.Where(ct => ct.CityId == zipCode));
             var entry = _ctx.Remove(new City(){ZipCode = zipCode});
             _ctx.SaveChanges();
-            //return entry.Entity;
              return entry.Entity;
-            // return null;
         }
 
         public City Update(City cityToUpdate)
@@ -79,7 +93,8 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             // 1: Get rid of all current rows with CityId 7002
             _ctx.CityTourists.RemoveRange(_ctx.CityTourists.Where(ct => ct.CityId == cityToUpdate.ZipCode));
             // 2: Adding All new Relations to CityTourist
-            _ctx.CityTourists.AddRange(cityToUpdate.Tourists);
+            _ctx.CityTourists.AddRange(cityToUpdate.TouristsVisits.Select(t => 
+                new CityTouristSql(){CityId = cityToUpdate.ZipCode, TouristId = t.Tourist.Id, VisitDate = t.VisitTime}));
             // 3: Saving updates
             var entry = _ctx.Update(cityToUpdate);
             _ctx.SaveChanges();

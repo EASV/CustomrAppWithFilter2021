@@ -1,6 +1,6 @@
 namespace CustomerApp.UI.WebApi.DTOs
 {
-    public class CustomerDTO
+    public class CustomerDto
     {
         public int Id { get; set; }
 

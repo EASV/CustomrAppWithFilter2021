@@ -22,23 +22,23 @@ namespace CustomerApp.UI.WebApi.Controllers
         }
         // GET: api/<CustomersController>
         [HttpGet]
-        public ActionResult<FilteredList<CustomerDTO>> Get([FromQuery] Filter filter)
+        public ActionResult<FilteredList<CustomerDto>> Get([FromQuery] Filter filter)
         {
             try
             {
                 var filteredList = _customerService.GetAllCustomers(filter);
                 var list = filteredList.List;
-                var listDTO = new List<CustomerDTO>();
+                var listDTO = new List<CustomerDto>();
                 foreach (var customer in list)
                 {
-                    listDTO.Add(new CustomerDTO()
+                    listDTO.Add(new CustomerDto()
                     {
                         Id = customer.Id,
                         Address = $"Street: {customer.Address?.StreetName}",
                         FirstName = customer.FirstName
                     });
                 }
-                var newFitleredList = new FilteredList<CustomerDTO>();
+                var newFitleredList = new FilteredList<CustomerDto>();
                 newFitleredList.List = listDTO;
                 newFitleredList.FilterUsed = filteredList.FilterUsed;
                 newFitleredList.TotalCount = filteredList.TotalCount;

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using CustomerApp.Core.Entity;
+using CustomerApp.Infrastructure.SQL.DBEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -26,26 +27,26 @@ namespace CustomerApp.Infrastructure.SQL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Fluent API
-            modelBuilder.Entity<City>()
+            modelBuilder.Entity<CitySql>()
                 .Property(c => c.ZipCode)
                 .ValueGeneratedNever();
-            modelBuilder.Entity<City>()
+            modelBuilder.Entity<CitySql>()
                 .HasKey(city => new {city.ZipCode});
-            modelBuilder.Entity<Address>()
+            modelBuilder.Entity<AddressSql>()
                 .HasOne(a => a.City)
                 .WithMany(c => c.Addresses)
                 .HasForeignKey(a => new {a.CityId})
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<CityTourist>()
+            modelBuilder.Entity<CityTouristSql>()
                 .HasKey(ct => new {ct.CityId, ct.TouristId});
 
-            modelBuilder.Entity<CityTourist>()
+            modelBuilder.Entity<CityTouristSql>()
                 .HasOne(c => c.City)
                 .WithMany(ct => ct.Tourists)
                 .HasForeignKey(ct => new {ct.CityId});
 
-            modelBuilder.Entity<CityTourist>()
+            modelBuilder.Entity<CityTouristSql>()
                 .HasOne(c => c.Tourist)
                 .WithMany(ct => ct.Cities)
                 .HasForeignKey(ct => new {ct.TouristId});
@@ -53,16 +54,11 @@ namespace CustomerApp.Infrastructure.SQL
 
         }
         
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Hat> Hats { get; set; }
-        public DbSet<HatType> HatTypes { get; set; }
-        public DbSet<Color> Colors { get; set; }
-        public DbSet<Brand> Brands { get; set; }
-
-        public DbSet<Address> Addresses { get; set; }
-        public DbSet<City> Cities { get; set; }
-        public DbSet<Tourist> Tourists { get; set; }
-        public DbSet<CityTourist> CityTourists { get; set; }
-        public DbSet<Country> Countries { get; set; }
+        public DbSet<CustomerSql> Customers { get; set; }
+        public DbSet<AddressSql> Addresses { get; set; }
+        public DbSet<CitySql> Cities { get; set; }
+        public DbSet<TouristSql> Tourists { get; set; }
+        public DbSet<CityTouristSql> CityTourists { get; set; }
+        public DbSet<CountrySql> Countries { get; set; }
     }
 }

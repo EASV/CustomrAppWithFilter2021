@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
 using CustomerApp.Infrastructure.SQL;
+using CustomerApp.Infrastructure.SQL.DBEntities;
 
 namespace CustomerApp.Infrastructure.DBInitialization
 {
@@ -11,20 +12,17 @@ namespace CustomerApp.Infrastructure.DBInitialization
         private readonly ICustomerRepository _customerRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly ICityRepository _cityRepository;
-        private readonly IHatRepository _hatRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly CustomerAppDBContext _ctx;
 
         public DBInitializer(
                  CustomerAppDBContext ctx,
-                 IHatRepository hatRepository,
                  ICityRepository cityRepository, 
                  ICustomerRepository customerRepository,
                  IAddressRepository addressRepository,
                  ICountryRepository countryRepository)
         {
             _ctx = ctx;
-            _hatRepository = hatRepository;
             _customerRepository = customerRepository;
             _addressRepository = addressRepository;
             _cityRepository = cityRepository;
@@ -43,19 +41,19 @@ namespace CustomerApp.Infrastructure.DBInitialization
                 {
                     ZipCode = 6001 + i,
                     Name = "osteBy" + i,
-                    CountryId = country.Id
+                    Country = country
                 });
             }
             _cityRepository.CreateAll(listCities);
 
-            var tourist1 = _ctx.Tourists.Add(new Tourist() {Name = "John"}).Entity;
-            var tourist2 = _ctx.Tourists.Add(new Tourist() {Name = "Bill"}).Entity;
-            var tourist3 = _ctx.Tourists.Add(new Tourist() {Name = "Bob"}).Entity;
-            var tourist4 = _ctx.Tourists.Add(new Tourist() {Name = "Allan"}).Entity;
+            var tourist1 = _ctx.Tourists.Add(new TouristSql() {Name = "John"}).Entity;
+            var tourist2 = _ctx.Tourists.Add(new TouristSql() {Name = "Bill"}).Entity;
+            var tourist3 = _ctx.Tourists.Add(new TouristSql() {Name = "Bob"}).Entity;
+            var tourist4 = _ctx.Tourists.Add(new TouristSql() {Name = "Allan"}).Entity;
             _ctx.SaveChanges();
             
-            _ctx.CityTourists.Add(new CityTourist() {CityId = listCities[0].ZipCode, TouristId = tourist1.Id, VisitDate = DateTime.Now});
-            _ctx.CityTourists.Add(new CityTourist() {CityId = listCities[0].ZipCode, TouristId = tourist2.Id, VisitDate = DateTime.Now.AddYears(-3)});
+            _ctx.CityTourists.Add(new CityTouristSql() {CityId = listCities[0].ZipCode, TouristId = tourist1.Id, VisitDate = DateTime.Now});
+            _ctx.CityTourists.Add(new CityTouristSql() {CityId = listCities[0].ZipCode, TouristId = tourist2.Id, VisitDate = DateTime.Now.AddYears(-3)});
             //_ctx.CityTourists.Add(new CityTourist() {CityId = listCities[2].ZipCode, TouristId = tourist1.Id});
             //_ctx.CityTourists.Add(new CityTourist() {CityId = listCities[1].ZipCode, TouristId = tourist2.Id});
             _ctx.SaveChanges();
@@ -67,7 +65,7 @@ namespace CustomerApp.Infrastructure.DBInitialization
                 StreetNr = 7,
                 Additional = "TTL",
                 Customers = new List<Customer>(),
-                CityId = 6001
+                City = listCities[0]
             };
             _addressRepository.Create(address);
             /*

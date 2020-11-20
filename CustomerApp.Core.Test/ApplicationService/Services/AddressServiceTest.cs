@@ -41,7 +41,7 @@ namespace CustomerApp.Core.Test.ApplicationService.Services
             var validatorMock = new Mock<IAddressValidator>();
             var repositoryMock = new Mock<IAddressRepository>();
             IAddressService service = new AddressService(validatorMock.Object, repositoryMock.Object);
-            var address = new Address(){Id = 1, Additional = "Ost", CityId = 1, StreetName = "Osteby", StreetNr = 2};
+            var address = new Address(){Id = 1, Additional = "Ost", City = new City{ZipCode = 1}, StreetName = "Osteby", StreetNr = 2};
             service.Update(address);
             validatorMock.Verify(validator => validator.DefaultValidation(address), Times.Once);
         }
@@ -52,7 +52,7 @@ namespace CustomerApp.Core.Test.ApplicationService.Services
             var validatorMock = new Mock<IAddressValidator>();
             var repositoryMock = new Mock<IAddressRepository>();
             IAddressService service = new AddressService(validatorMock.Object, repositoryMock.Object);
-            var address = new Address(){Id = 1, Additional = "Ost", CityId = 1, StreetName = "Osteby", StreetNr = 2};
+            var address = new Address(){Id = 1, Additional = "Ost", City = new City{ZipCode = 1}, StreetName = "Osteby", StreetNr = 2};
             service.Update(address);
             repositoryMock.Verify(repository => repository.Update(address), Times.Once);
         }
@@ -62,8 +62,8 @@ namespace CustomerApp.Core.Test.ApplicationService.Services
         {   
             var validatorMock = new Mock<IAddressValidator>();
             var repositoryMock = new Mock<IAddressRepository>();
-            var address = new Address(){Id = 0, Additional = "Ost", CityId = 1, StreetName = "Osteby", StreetNr = 2};
-            var addressCreated = new Address(){Id = 1, Additional = "Ost", CityId = 1, StreetName = "Osteby", StreetNr = 2};
+            var address = new Address(){Id = 0, Additional = "Ost", City = new City{ZipCode = 1}, StreetName = "Osteby", StreetNr = 2};
+            var addressCreated = new Address(){Id = 1, Additional = "Ost", City = new City{ZipCode = 1}, StreetName = "Osteby", StreetNr = 2};
             repositoryMock.Setup(r => r.Update(address)).Returns(address);
             IAddressService service = new AddressService(validatorMock.Object, repositoryMock.Object);
             var updatedAddress = service.Update(address);

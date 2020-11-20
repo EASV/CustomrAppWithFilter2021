@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CustomerApp.Core.DomainService;
 using CustomerApp.Core.Entity;
+using CustomerApp.Infrastructure.SQL.DBEntities;
 
 namespace CustomerApp.Infrastructure.SQL.Repositories
 {
@@ -15,14 +16,26 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         }
         public List<Country> GetAll()
         {
-            return _ctx.Countries.ToList();
+            return _ctx.Countries.Select(c => new Country
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
         }
 
         public Country Create(Country country)
         {
-            var entry = _ctx.Countries.Add(country);
+            var entry = _ctx.Countries.Add(new CountrySql
+            {
+                Id = country.Id,
+                Name = country.Name
+            });
             _ctx.SaveChanges();
-            return entry.Entity;
+            return new Country
+            {
+                Id = entry.Entity.Id,
+                Name = entry.Entity.Name
+            };
         }
     }
 }

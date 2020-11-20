@@ -21,7 +21,20 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
 
             filteredList.TotalCount = _ctx.Customers.Count();
             filteredList.FilterUsed = filter;
-            filteredList.List = _ctx.Customers.ToList();
+            filteredList.List = 
+                _ctx.Customers.Select(c => new Customer()
+                {
+                    Id = c.Id,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    Address = c.Address == null ? null : new Address
+                    {
+                        Id = c.Address.Id,
+                        Additional = c.Address.Additional,
+                        StreetName = c.Address.StreetName,
+                        StreetNr = c.Address.StreetNr
+                    }
+                }).ToList();
             return filteredList;
         }
         
@@ -31,6 +44,19 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             return _ctx.Customers
                 .Include(c => c.Address)
                 .ThenInclude(a => a.City)
+                .Select(c => new Customer()
+                {
+                    Id = c.Id,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    Address = c.Address == null ? null : new Address
+                    {
+                        Id = c.Address.Id,
+                        Additional = c.Address.Additional,
+                        StreetName = c.Address.StreetName,
+                        StreetNr = c.Address.StreetNr
+                    }
+                })
                 .FirstOrDefault(c => c.Id == id);
         }
         
