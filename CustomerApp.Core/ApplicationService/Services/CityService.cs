@@ -20,10 +20,10 @@ namespace CustomerApp.Core.ApplicationService.Services
             _cityRepository = cityRepository ?? throw new NullReferenceException("CityRepository Cannot be Null");
         }
         
-        public List<City> ReadAll()
+        public FilteredList<City> ReadAll(Filter filter = null)
         {
            
-            return _cityRepository.GetAll();
+            return _cityRepository.GetAll(filter);
         }
 
         public City Create(City city)

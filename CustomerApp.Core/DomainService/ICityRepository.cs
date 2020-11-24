@@ -5,7 +5,7 @@ namespace CustomerApp.Core.DomainService
 {
     public interface ICityRepository
     {
-        public List<City> GetAll();
+        public FilteredList<City> GetAll(Filter filter = null);
         public City Create(City city);
         public void CreateAll(List<City> cities);
         public City ReadById(int cityZipCode);

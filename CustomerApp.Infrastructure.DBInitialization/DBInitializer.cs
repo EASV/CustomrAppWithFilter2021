@@ -37,7 +37,7 @@ namespace CustomerApp.Infrastructure.DBInitialization
             _countryRepository.Create(new Country() {Name = "Sweden"});
             _countryRepository.Create(new Country() {Name = "Norway"});
             var listCities = new List<City>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 listCities.Add(new City()
                 {

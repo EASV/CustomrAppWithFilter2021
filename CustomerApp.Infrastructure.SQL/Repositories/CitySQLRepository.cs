@@ -16,12 +16,33 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         {
             _ctx = ctx;
         }
-        public List<City> GetAll()
-        {   return _ctx.Cities
+        public FilteredList<City> GetAll(Filter filter = null)
+        {   
+            var newList = new FilteredList<City>();
+            newList.FilterUsed = filter;
+            newList.TotalCount = _ctx.Cities.Count();
+
+            IQueryable<City> listFilter = _ctx.Cities
                 .Include(c => c.Tourists)
                 .ThenInclude(ct => ct.Tourist)
-                .Include(c => c.Country)
-                .ToList();
+                .Include(c => c.Country);
+            if (filter?.SearchField != null && filter.SearchField.Length > 0 && filter?.SearchText != null && filter.SearchText.Length > 0)
+            {
+                if (filter.SearchField.Equals("Name"))
+                {
+                    listFilter = listFilter.Where(c => c.Name.Contains(filter.SearchText));
+                    newList.TotalCount = _ctx.Cities.Count(c => c.Name.Contains(filter.SearchText));
+
+                }
+            }
+            if (filter != null && filter.CurrentPage > 0 && filter.ItemsPrPage > 0)
+            {
+                listFilter = listFilter.Skip((filter.CurrentPage - 1) * filter.ItemsPrPage)
+                    .Take(filter.ItemsPrPage);
+            }
+            newList.List = listFilter.ToList();
+
+            return newList;
         }
 
         public City Create(City city)

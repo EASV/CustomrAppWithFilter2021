@@ -72,6 +72,8 @@ namespace CustomerApp.UI.WebApi
             }
              
             services.AddScoped<IHatRepository, HatSQLRepository>();
+            services.AddScoped<ITouristRepository, TouristSQLRepository>();
+            services.AddScoped<ITouristService, TouristService>();
             services.AddScoped<IAddressRepository, AddressSQLRepository>();
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IAddressValidator, AddressValidator>();

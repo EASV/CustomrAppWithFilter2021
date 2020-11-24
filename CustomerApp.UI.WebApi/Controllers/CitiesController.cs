@@ -17,11 +17,11 @@ namespace CustomerApp.UI.WebApi.Controllers
             _cityService = cityService;
         }
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index([FromQuery] Filter filter)
         {
             try
             {
-                return Ok(_cityService.ReadAll());
+                return Ok(_cityService.ReadAll(filter));
             }
             catch (Exception e)
             {
