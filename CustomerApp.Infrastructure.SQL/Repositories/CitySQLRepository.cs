@@ -22,10 +22,13 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             newList.FilterUsed = filter;
             newList.TotalCount = _ctx.Cities.Count();
 
+            //Joins Required
             IQueryable<City> listFilter = _ctx.Cities
                 .Include(c => c.Tourists)
                 .ThenInclude(ct => ct.Tourist)
                 .Include(c => c.Country);
+            
+            //SearchText og searchfield?
             if (filter?.SearchField != null && filter.SearchField.Length > 0 && filter?.SearchText != null && filter.SearchText.Length > 0)
             {
                 if (filter.SearchField.Equals("Name"))
@@ -40,6 +43,8 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
                 listFilter = listFilter.Skip((filter.CurrentPage - 1) * filter.ItemsPrPage)
                     .Take(filter.ItemsPrPage);
             }
+
+            // listFilter = listFilter.OrderByDescending(c => c.Name);
             newList.List = listFilter.ToList();
 
             return newList;
