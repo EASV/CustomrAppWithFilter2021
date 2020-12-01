@@ -50,20 +50,19 @@ namespace CustomerApp.Core.ApplicationService.Services
 
         public City Update(City city)
         {
-            _cityValidator.DefaultValidation(city);
-            return _cityRepository.Update(city);
-            /*try
+            try
             {
-                
+                _cityValidator.DefaultValidation(city);
+                return _cityRepository.Update(city);
             }
             catch (DataSourceException ds)
             {
-    
+                return null;
             }
             catch (Exception e)
             {
-                
-            }*/
+                throw;
+            }
         }
     }
 }

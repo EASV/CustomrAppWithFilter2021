@@ -74,6 +74,7 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         public City ReadById(int cityZipCode)
         {
             return _ctx.Cities
+                .AsNoTracking()
                 .Include(c => c.Tourists)
                 .ThenInclude(ct => ct.Tourist)
                 .AsNoTracking()
@@ -107,9 +108,18 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             // 2: Adding All new Relations to CityTourist
             _ctx.CityTourists.AddRange(cityToUpdate.Tourists);
             // 3: Saving updates
-            var entry = _ctx.Update(cityToUpdate);
-            _ctx.SaveChanges();
-            return entry.Entity;
+            try
+            {
+
+                var entry = _ctx.Update(cityToUpdate);
+                _ctx.SaveChanges();
+                return entry.Entity;
+            }
+            catch (Exception e)
+            {
+                throw new DataSourceException(e.Message);
+            }
+            
         }
     }
 }
