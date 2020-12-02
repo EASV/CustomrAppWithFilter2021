@@ -16,6 +16,16 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         {
             _ctx = ctx;
         }
+        public City ReadById(int cityZipCode)
+        {
+            return _ctx.Cities
+                .AsNoTracking()
+                .Include(c => c.Tourists)
+                .ThenInclude(ct => ct.Tourist)
+                .AsNoTracking()
+                .FirstOrDefault(city => city.ZipCode == cityZipCode);
+        }
+
         public FilteredList<City> GetAll(Filter filter = null)
         {   
             var newList = new FilteredList<City>();
@@ -26,7 +36,17 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             IQueryable<City> listFilter = _ctx.Cities
                 .Include(c => c.Tourists)
                 .ThenInclude(ct => ct.Tourist)
-                .Include(c => c.Country);
+                .Include(c => c.Country)
+                .Select(c => new City()
+                { 
+                    CountryId = c.CountryId,
+                    Name = c.Name,
+                    Country = c.Country != null ? 
+                        new Country {
+                            Id = c.Country.Id, 
+                            Name = c.Country.Name
+                        } : null
+                });
             
             //SearchText og searchfield?
             if (filter?.SearchField != null && filter.SearchField.Length > 0 && filter?.SearchText != null && filter.SearchText.Length > 0)
@@ -52,33 +72,14 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
 
         public City Create(City city)
         {
-            try
-            {
-                var cityEntry = _ctx.Add(city);
-                _ctx.SaveChanges();
-                return cityEntry.Entity;
-            }
-            catch (Exception e)
-            {
-                throw new DataSourceException(e.InnerException.Message);
-            }
-            
+            var entry = _ctx.Add(city);
+            _ctx.SaveChanges();
+            return entry.Entity;
         }
         
         public void CreateAll(List<City> cities)
         {
             _ctx.AddRange(cities);
-            _ctx.SaveChanges();
-        }
-
-        public City ReadById(int cityZipCode)
-        {
-            return _ctx.Cities
-                .AsNoTracking()
-                .Include(c => c.Tourists)
-                .ThenInclude(ct => ct.Tourist)
-                .AsNoTracking()
-                .FirstOrDefault(city => city.ZipCode == cityZipCode);
         }
 
         public City Delete(int zipCode)
@@ -94,11 +95,11 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             //var entry =_ctx.Remove(_ctx.Cities.Single(a => a.ZipCode == zipCode));
             // 1: Get rid of all current rows with CityId 7002
             _ctx.CityTourists.RemoveRange(_ctx.CityTourists.Where(ct => ct.CityId == zipCode));
-            var entry = _ctx.Remove(new City(){ZipCode = zipCode});
-            _ctx.SaveChanges();
+            _ctx.Remove(new City(){ZipCode = zipCode});
             //return entry.Entity;
+             var entry = _ctx.Remove(new City(){ZipCode = zipCode});
+             _ctx.SaveChanges();
              return entry.Entity;
-            // return null;
         }
 
         public City Update(City cityToUpdate)
@@ -108,18 +109,9 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
             // 2: Adding All new Relations to CityTourist
             _ctx.CityTourists.AddRange(cityToUpdate.Tourists);
             // 3: Saving updates
-            try
-            {
-
-                var entry = _ctx.Update(cityToUpdate);
-                _ctx.SaveChanges();
-                return entry.Entity;
-            }
-            catch (Exception e)
-            {
-                throw new DataSourceException(e.Message);
-            }
-            
+            var entry = _ctx.Update(cityToUpdate);
+            _ctx.SaveChanges();
+            return entry.Entity;
         }
     }
 }

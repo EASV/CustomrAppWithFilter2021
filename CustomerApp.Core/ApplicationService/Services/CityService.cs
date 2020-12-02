@@ -22,7 +22,10 @@ namespace CustomerApp.Core.ApplicationService.Services
         
         public FilteredList<City> ReadAll(Filter filter = null)
         {
-           
+            if (filter == null)
+            {
+                filter = new Filter(){CurrentPage = 1, ItemsPrPage = 5};
+            }
             return _cityRepository.GetAll(filter);
         }
 

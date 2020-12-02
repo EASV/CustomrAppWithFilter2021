@@ -60,7 +60,7 @@ namespace CustomerApp.UI.WebApi
                             // .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                             .UseLoggerFactory(loggerFactory)
                             .UseSqlite("Data Source=custapp.db");
-                    }, ServiceLifetime.Transient);
+                    });
             }
             else
             {
@@ -70,8 +70,8 @@ namespace CustomerApp.UI.WebApi
                         .UseLoggerFactory(loggerFactory)
                         .UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
             }
-             
-            services.AddScoped<IHatRepository, HatSQLRepository>();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITouristRepository, TouristSQLRepository>();
             services.AddScoped<ITouristService, TouristService>();
             services.AddScoped<IAddressRepository, AddressSQLRepository>();
@@ -129,12 +129,8 @@ namespace CustomerApp.UI.WebApi
                     var ctx = scope.ServiceProvider.GetService<CustomerAppDBContext>();
                     ctx.Database.EnsureDeleted();
                     ctx.Database.EnsureCreated();
-                    var hatRepository = scope.ServiceProvider.GetService<IHatRepository>();
-                    var custRepository = scope.ServiceProvider.GetService<ICustomerRepository>();
-                    var addressRepository = scope.ServiceProvider.GetService<IAddressRepository>();
-                    var cityRepository = scope.ServiceProvider.GetService<ICityRepository>();
-                    var countryRepository = scope.ServiceProvider.GetService<ICountryRepository>();
-                    new DBInitializer(ctx, hatRepository, cityRepository, custRepository, addressRepository,countryRepository).InitData();
+                    var uow = scope.ServiceProvider.GetService<IUnitOfWork>();
+                    new DBInitializer(uow).InitData();
                     /*var ctx = scope.ServiceProvider.GetService<CustomerAppLiteContext>(); 
                     ctx.Database.EnsureDeleted();
                     ctx.Database.EnsureCreated();
