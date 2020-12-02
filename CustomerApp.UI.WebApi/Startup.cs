@@ -19,10 +19,8 @@ namespace CustomerApp.UI.WebApi
 {
     public class Startup
     {
-        
-        
-        public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Environment { get; }
+        private IConfiguration Configuration { get; }
+        private IWebHostEnvironment Environment { get; }
 
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
@@ -110,8 +108,8 @@ namespace CustomerApp.UI.WebApi
             });
             
 
-            services.AddAuthentication(
-                    CertificateAuthenticationDefaults.AuthenticationScheme)
+            services
+                .AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
                 .AddCertificate();
 
         }

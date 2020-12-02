@@ -9,15 +9,15 @@ namespace CustomerApp.Core.ApplicationService.Services
 {
     public class CityService: ICityService
     {
-        private readonly ICityRepository _cityRepository;
         private readonly ICityValidator _cityValidator;
-        
+        private readonly IUnitOfWork _unitOfWork;
+
         public CityService(
             ICityValidator cityValidator,
-            ICityRepository cityRepository)
+            IUnitOfWork unitOfWork)
         {
             _cityValidator = cityValidator ?? throw new NullReferenceException("Validator Cannot be null");
-            _cityRepository = cityRepository ?? throw new NullReferenceException("CityRepository Cannot be Null");
+            _unitOfWork = unitOfWork;
         }
         
         public FilteredList<City> ReadAll(Filter filter = null)
@@ -26,28 +26,33 @@ namespace CustomerApp.Core.ApplicationService.Services
             {
                 filter = new Filter(){CurrentPage = 1, ItemsPrPage = 5};
             }
-            return _cityRepository.GetAll(filter);
+            return _unitOfWork.CityRepository().GetAll(filter);
         }
 
         public City Create(City city)
         {
             _cityValidator.DefaultValidation(city);
-            return _cityRepository.Create(city);
+            var cityAfter = _unitOfWork.CityRepository().Create(city);
+            _unitOfWork.SaveChanges();
+            return cityAfter;
         }
 
         public City FindCityByZipcode(int zipCode)
         {
-            return _cityRepository.ReadById(zipCode);
+            return _unitOfWork.CityRepository().ReadById(zipCode);
         }
 
         public City Delete(int zipCode)
         {
-                var city = _cityRepository.ReadById(zipCode);
+                var city = _unitOfWork.CityRepository().ReadById(zipCode);
                 if (city == null)
                 {
                     throw new Exception("City not found.. WRAAAAHHHHHHH!!!! ");
                 }
-                return _cityRepository.Delete(zipCode);
+                var cityAfter = _unitOfWork.CityRepository().Delete(zipCode);
+                _unitOfWork.SaveChanges();
+
+                return cityAfter;
             
         }
 
@@ -56,7 +61,9 @@ namespace CustomerApp.Core.ApplicationService.Services
             try
             {
                 _cityValidator.DefaultValidation(city);
-                return _cityRepository.Update(city);
+                var cityAfter = _unitOfWork.CityRepository().Update(city);
+                _unitOfWork.SaveChanges();
+                return cityAfter;
             }
             catch (DataSourceException ds)
             {

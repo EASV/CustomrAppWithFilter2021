@@ -41,6 +41,7 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
                 { 
                     CountryId = c.CountryId,
                     Name = c.Name,
+                    ZipCode = c.ZipCode,
                     Country = c.Country != null ? 
                         new Country {
                             Id = c.Country.Id, 

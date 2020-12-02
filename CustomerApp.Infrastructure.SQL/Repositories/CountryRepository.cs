@@ -17,6 +17,11 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         {
             return _ctx.Countries.ToList();
         }
+        
+        public Country ReadById(int id)
+        {
+            return _ctx.Countries.FirstOrDefault(c => c.Id == id);
+        }
 
         public Country Create(Country country)
         {

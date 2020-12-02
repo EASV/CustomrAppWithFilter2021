@@ -12,7 +12,7 @@ namespace CustomerApp.Core.Test.ApplicationService.Services
 {
     public class CityServiceTest
     {
-        [Fact]
+        /*[Fact]
         public void CityService_IsOfTypeICityService()
         {
             var cityValidatorMock = new Mock<ICityValidator>();
@@ -91,6 +91,6 @@ namespace CustomerApp.Core.Test.ApplicationService.Services
             //cityRepositoryMock.Verify(cr => cr.GetAll(fList.FilterUsed));
             // Assert.True(fList.List.Count <= 2);
             //Assert.Equal(fList.FilterUsed, filter);
-        }
+        }*/
     }
 }
