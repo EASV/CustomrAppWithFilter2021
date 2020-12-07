@@ -64,6 +64,7 @@ namespace CustomerApp.Core.ApplicationService.Services
 
         public Customer UpdateCustomer(Customer customerUpdate)
         {
+            //if user has events throw error
             return _customerRepo.Update(customerUpdate);
         }
 
