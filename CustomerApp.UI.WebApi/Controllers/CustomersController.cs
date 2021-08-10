@@ -66,9 +66,16 @@ namespace CustomerApp.UI.WebApi.Controllers
 
         // POST api/<CustomersController>
         [HttpPost]
-        public void Post([FromBody] Customer customer)
+        public ActionResult<Customer> Post([FromBody] Customer customer)
         {
-            _customerService.CreateCustomer(customer);
+            try
+            {
+                return _customerService.CreateCustomer(customer);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         // PUT api/<CustomersController>/5
