@@ -17,5 +17,10 @@ namespace CustomerApp.Core.Domain.Services
         {
             return _countryRepository.GetAll();
         }
+
+        public Country Create(Country country)
+        {
+            return _countryRepository.Create(country);
+        }
     }
 }

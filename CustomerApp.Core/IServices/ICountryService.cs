@@ -6,5 +6,6 @@ namespace CustomerApp.Core.IServices
     public interface ICountryService
     {
         List<Country> ReadAll();
+        Country Create(Country country);
     }
 }

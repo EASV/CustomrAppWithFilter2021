@@ -1,5 +1,7 @@
+using System;
 using CustomerApp.Core.Domain;
 using CustomerApp.Core.IServices;
+using CustomerApp.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerApp.UI.WebApi.Controllers
@@ -18,6 +20,20 @@ namespace CustomerApp.UI.WebApi.Controllers
         public IActionResult Index()
         {
             return Ok(_countryService.ReadAll());
+        }
+       
+        [HttpPost]
+        public IActionResult Post(Country country)
+        {
+            try
+            {
+                return Ok(_countryService.Create(country));
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            
         }
     }
 }
