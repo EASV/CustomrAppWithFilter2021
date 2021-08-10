@@ -65,11 +65,20 @@ namespace CustomerApp.UI.WebApi
             }
             else
             {
+                // SQLite:
+                services.AddDbContext<CustomerAppDBContext>(
+                    opt =>
+                    {
+                        opt
+                            // .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                            .UseLoggerFactory(loggerFactory)
+                            .UseSqlite("Data Source=custapp.db");
+                    }, ServiceLifetime.Transient);
                 // Azure SQL database:
-                services.AddDbContext<CustomerAppDBContext>(opt =>
+                /*services.AddDbContext<CustomerAppDBContext>(opt =>
                     opt
                         .UseLoggerFactory(loggerFactory)
-                        .UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+                        .UseSqlServer(Configuration.GetConnectionString("defaultConnection")));*/
             }
              
             services.AddScoped<IAddressRepository, AddressSQLRepository>();
