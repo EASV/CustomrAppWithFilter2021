@@ -1,5 +1,4 @@
 using System;
-using CustomerApp.Core.Domain;
 using CustomerApp.Core.IServices;
 using CustomerApp.Core.Models;
 using Microsoft.AspNetCore.Mvc;
