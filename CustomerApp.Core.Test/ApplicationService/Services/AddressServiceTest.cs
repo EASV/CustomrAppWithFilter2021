@@ -1,5 +1,4 @@
 using System;
-using CustomerApp.Core.Domain;
 using CustomerApp.Core.IServices;
 using CustomerApp.Core.IValidators;
 using CustomerApp.Core.Models;
