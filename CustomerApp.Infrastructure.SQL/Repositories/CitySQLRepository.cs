@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper;
 using CustomerApp.Core.Exceptions;
 using CustomerApp.Core.Models;
-using CustomerApp.Core.Persistance.Interfaces;
+using CustomerApp.Domain.IRepositories;
 using CustomerApp.Infrastructure.SQL.Converters;
 using CustomerApp.Infrastructure.SQL.DBEntities;
 using Microsoft.EntityFrameworkCore;

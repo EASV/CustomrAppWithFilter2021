@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using CustomerApp.Core.Domain;
 using CustomerApp.Core.Filter;
 using CustomerApp.Core.IServices;
 using CustomerApp.Core.Models;
 using CustomerApp.UI.WebApi.DTOs;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

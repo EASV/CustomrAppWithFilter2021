@@ -2,7 +2,7 @@ using System;
 using CustomerApp.Core.IValidators;
 using CustomerApp.Core.Models;
 
-namespace CustomerApp.Core.Domain.Validators
+namespace CustomerApp.Domain.Validators
 {
     public class AddressValidator: IAddressValidator
     {

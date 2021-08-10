@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using CustomerApp.Core.Models;
 
-namespace CustomerApp.Core.Persistance.Interfaces
+namespace CustomerApp.Domain.IRepositories
 {
     public interface IAddressRepository
     {

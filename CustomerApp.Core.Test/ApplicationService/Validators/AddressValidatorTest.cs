@@ -1,8 +1,8 @@
 using System;
 using CustomerApp.Core.Domain;
-using CustomerApp.Core.Domain.Validators;
 using CustomerApp.Core.IValidators;
 using CustomerApp.Core.Models;
+using CustomerApp.Domain.Validators;
 using FluentAssertions;
 using Xunit;
 

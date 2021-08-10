@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using CustomerApp.Core.Filter;
 using CustomerApp.Core.Models;
-using CustomerApp.Core.Persistance.Interfaces;
+using CustomerApp.Domain.IRepositories;
+using CustomerApp.Infrastructure.SQL.DBEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CustomerApp.Infrastructure.SQL.Repositories
@@ -64,9 +65,26 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
         public Customer Create(Customer customer)
         {
             //_ctx.Attach(customer.Address).State = EntityState.Unchanged;
-            var customerEntry = _ctx.Add(customer);
+            var customerEntity = new CustomerSql
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                AddressId = customer.Address.Id
+            };
+            
+            var customerEntry = _ctx.Add(customerEntity);
             _ctx.SaveChanges();
-            return customerEntry.Entity;
+            return new Customer
+            {
+                Id = customerEntry.Entity.Id,
+                LastName = customerEntry.Entity.LastName,
+                FirstName = customerEntry.Entity.FirstName,
+                Address = new Address
+                {
+                    Id = customerEntry.Entity.Address.Id,
+                     StreetName = customerEntry.Entity.Address.StreetName
+                }
+            };
         }
 
         public Customer Update(Customer customerUpdate)

@@ -1,9 +1,8 @@
-using CustomerApp.Core.Domain.Services;
-using CustomerApp.Core.Domain.Validators;
 using CustomerApp.Core.IServices;
 using CustomerApp.Core.IValidators;
-using CustomerApp.Core.Persistance.Interfaces;
-using CustomerApp.Infrastructure.DBInitialization;
+using CustomerApp.Domain.IRepositories;
+using CustomerApp.Domain.Services;
+using CustomerApp.Domain.Validators;
 using CustomerApp.Infrastructure.SQL;
 using CustomerApp.Infrastructure.SQL.Repositories;
 using Microsoft.AspNetCore.Authentication.Certificate;

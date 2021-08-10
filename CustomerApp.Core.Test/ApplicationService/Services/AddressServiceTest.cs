@@ -1,10 +1,10 @@
 using System;
 using CustomerApp.Core.Domain;
-using CustomerApp.Core.Domain.Services;
 using CustomerApp.Core.IServices;
 using CustomerApp.Core.IValidators;
 using CustomerApp.Core.Models;
-using CustomerApp.Core.Persistance.Interfaces;
+using CustomerApp.Domain.IRepositories;
+using CustomerApp.Domain.Services;
 using FluentAssertions;
 using Moq;
 using Xunit;

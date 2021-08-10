@@ -1,11 +1,11 @@
 ﻿using System;
-using CustomerApp.Core.Domain.Validators;
 using CustomerApp.Core.Filter;
 using CustomerApp.Core.IServices;
 using CustomerApp.Core.Models;
-using CustomerApp.Core.Persistance.Interfaces;
+using CustomerApp.Domain.IRepositories;
+using CustomerApp.Domain.Validators;
 
-namespace CustomerApp.Core.Domain.Services
+namespace CustomerApp.Domain.Services
 {
     public class CustomerService: ICustomerService
     {
@@ -44,7 +44,7 @@ namespace CustomerApp.Core.Domain.Services
         }
 
         
-        public FilteredList<Customer> GetAllCustomers(Filter.Filter filter)
+        public FilteredList<Customer> GetAllCustomers(Core.Filter.Filter filter)
         {
             if (filter == null)
             {

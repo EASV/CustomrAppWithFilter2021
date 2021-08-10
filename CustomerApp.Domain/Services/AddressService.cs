@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using CustomerApp.Core.IServices;
 using CustomerApp.Core.IValidators;
 using CustomerApp.Core.Models;
-using CustomerApp.Core.Persistance.Interfaces;
+using CustomerApp.Domain.IRepositories;
 
-namespace CustomerApp.Core.Domain.Services
+namespace CustomerApp.Domain.Services
 {
     public class AddressService : IAddressService
     {
@@ -22,15 +22,7 @@ namespace CustomerApp.Core.Domain.Services
         public Address Create(Address address)
         {
             _addressValidator.DefaultValidation(address);
-            try
-            {
-                return _addressRepository.Create(address);
-            }
-            catch (Exception e)
-            {
-                throw  new Exception(e.Message);
-            }
-           
+            return _addressRepository.Create(address);
         }
 
         public List<Address> GetAll()

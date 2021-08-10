@@ -1,7 +1,7 @@
 using System.IO;
 using CustomerApp.Core.Models;
 
-namespace CustomerApp.Core.Domain.Validators
+namespace CustomerApp.Domain.Validators
 {
     public class CustomerValidator
     {

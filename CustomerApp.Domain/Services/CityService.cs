@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using CustomerApp.Core.IServices;
 using CustomerApp.Core.IValidators;
 using CustomerApp.Core.Models;
-using CustomerApp.Core.Persistance.Interfaces;
+using CustomerApp.Domain.IRepositories;
 
-namespace CustomerApp.Core.Domain.Services
+namespace CustomerApp.Domain.Services
 {
     public class CityService: ICityService
     {

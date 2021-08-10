@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using CustomerApp.Core.Models;
-using CustomerApp.Core.Persistance.Interfaces;
-using CustomerApp.Infrastructure.SQL;
+using CustomerApp.Domain.IRepositories;
 using CustomerApp.Infrastructure.SQL.DBEntities;
 
-namespace CustomerApp.Infrastructure.DBInitialization
+namespace CustomerApp.Infrastructure.SQL
 {
     public class DBInitializer
     {
