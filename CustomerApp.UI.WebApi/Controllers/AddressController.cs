@@ -54,7 +54,14 @@ namespace CustomerApp.UI.WebApi.Controllers
         [HttpPost]
         public ActionResult<Address> Post([FromBody] Address address)
         {
-            return Ok(_addressService.Create(address));
+            try
+            {
+                return Ok(_addressService.Create(address));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
