@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using CustomerApp.Core.Entity;
 using CustomerApp.Infrastructure.SQL.DBEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

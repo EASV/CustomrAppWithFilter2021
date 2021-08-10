@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CustomerApp.Infrastructure.DBInitialization\CustomerApp.Infrastructure.DBInitialization.csproj" />
     <ProjectReference Include="..\CustomerApp.Infrastructure.SQL\CustomerApp.Infrastructure.SQL.csproj" />
   </ItemGroup>
 

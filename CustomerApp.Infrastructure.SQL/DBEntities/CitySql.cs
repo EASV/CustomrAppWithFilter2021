@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using CustomerApp.Core.Entity;
 
 namespace CustomerApp.Infrastructure.SQL.DBEntities
 {

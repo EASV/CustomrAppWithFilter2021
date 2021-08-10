@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using CustomerApp.Core.Entity;
+using CustomerApp.Core.Models;
 using CustomerApp.Infrastructure.SQL.DBEntities;
 
 namespace CustomerApp.Infrastructure.SQL.Converters

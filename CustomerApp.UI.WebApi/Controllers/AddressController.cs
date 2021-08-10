@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using CustomerApp.Core.ApplicationService;
-using CustomerApp.Core.Entity;
+using CustomerApp.Core.Filter;
+using CustomerApp.Core.IServices;
+using CustomerApp.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerApp.UI.WebApi.Controllers

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using CustomerApp.Core.DomainService;
-using CustomerApp.Core.Entity;
+using CustomerApp.Core.Models;
+using CustomerApp.Core.Persistance.Interfaces;
 using CustomerApp.Infrastructure.SQL.DBEntities;
 
 namespace CustomerApp.Infrastructure.SQL.Repositories

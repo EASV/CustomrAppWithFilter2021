@@ -1,6 +1,7 @@
 using System;
-using CustomerApp.Core.ApplicationService;
-using CustomerApp.Core.Entity;
+using CustomerApp.Core.Domain;
+using CustomerApp.Core.IServices;
+using CustomerApp.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerApp.UI.WebApi.Controllers

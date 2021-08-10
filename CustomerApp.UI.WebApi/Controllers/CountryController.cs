@@ -1,4 +1,5 @@
-using CustomerApp.Core.ApplicationService;
+using CustomerApp.Core.Domain;
+using CustomerApp.Core.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerApp.UI.WebApi.Controllers

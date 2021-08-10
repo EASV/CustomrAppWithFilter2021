@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CustomerApp.Core.Entity;
+using CustomerApp.Core.Models;
 
 namespace CustomerApp.UI.WebApi.DTOs
 {

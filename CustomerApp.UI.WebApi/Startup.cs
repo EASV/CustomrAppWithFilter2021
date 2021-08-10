@@ -1,8 +1,8 @@
-using AutoMapper;
-using CustomerApp.Core.ApplicationService;
-using CustomerApp.Core.ApplicationService.Services;
-using CustomerApp.Core.ApplicationService.Validators;
-using CustomerApp.Core.DomainService;
+using CustomerApp.Core.Domain.Services;
+using CustomerApp.Core.Domain.Validators;
+using CustomerApp.Core.IServices;
+using CustomerApp.Core.IValidators;
+using CustomerApp.Core.Persistance.Interfaces;
 using CustomerApp.Infrastructure.DBInitialization;
 using CustomerApp.Infrastructure.SQL;
 using CustomerApp.Infrastructure.SQL.Repositories;
@@ -86,7 +86,6 @@ namespace CustomerApp.UI.WebApi
             services.AddControllers().AddNewtonsoftJson(o => 
             {
                 o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                // o.SerializerSettings.MaxDepth = 1;
             });
             
             services.AddCors(options =>
@@ -107,10 +106,8 @@ namespace CustomerApp.UI.WebApi
                     });
             });
             
-            services.AddAuthentication(
-                    CertificateAuthenticationDefaults.AuthenticationScheme)
+            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
                 .AddCertificate();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

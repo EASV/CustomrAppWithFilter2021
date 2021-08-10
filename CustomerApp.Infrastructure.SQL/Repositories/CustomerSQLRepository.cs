@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using CustomerApp.Core.DomainService;
-using CustomerApp.Core.Entity;
+using CustomerApp.Core.Filter;
+using CustomerApp.Core.Models;
+using CustomerApp.Core.Persistance.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CustomerApp.Infrastructure.SQL.Repositories

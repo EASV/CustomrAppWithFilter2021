@@ -1,7 +1,8 @@
 using System;
-using CustomerApp.Core.ApplicationService;
-using CustomerApp.Core.ApplicationService.Validators;
-using CustomerApp.Core.Entity;
+using CustomerApp.Core.Domain;
+using CustomerApp.Core.Domain.Validators;
+using CustomerApp.Core.IValidators;
+using CustomerApp.Core.Models;
 using FluentAssertions;
 using Xunit;
 
