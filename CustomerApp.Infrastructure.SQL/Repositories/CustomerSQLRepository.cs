@@ -81,8 +81,7 @@ namespace CustomerApp.Infrastructure.SQL.Repositories
                 FirstName = customerEntry.Entity.FirstName,
                 Address = new Address
                 {
-                    Id = customerEntry.Entity.Address.Id,
-                     StreetName = customerEntry.Entity.Address.StreetName
+                    Id = customer.Address.Id
                 }
             };
         }
