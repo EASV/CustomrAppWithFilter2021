@@ -90,11 +90,6 @@ namespace CustomerApp.UI.WebApi
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<ICountryService, CountryService>();
-
-            services.AddControllers().AddNewtonsoftJson(o => 
-            {
-                o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
             
             services.AddCors(options =>
             {
