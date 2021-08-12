@@ -72,7 +72,7 @@ namespace CustomerApp.UI.WebApi.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, e.Message + "****\n"+e.StackTrace);
             }
         }
 
