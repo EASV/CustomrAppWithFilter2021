@@ -8,17 +8,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{3B085FB0-3780-448C-B0F4-5C174C810364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerApp.UI.WebApi", "CustomerApp.UI.WebApi\CustomerApp.UI.WebApi.csproj", "{E93ADD10-9B02-4BB6-AC80-B04F2E296CF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoTech.CustomerApp.UI.WebApi", "InnoTech.CustomerApp.UI.WebApi\InnoTech.CustomerApp.UI.WebApi.csproj", "{E93ADD10-9B02-4BB6-AC80-B04F2E296CF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerApp.Core", "CustomerApp.Core\CustomerApp.Core.csproj", "{18843A82-0AFB-4B8E-B7D5-D1162B88594D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoTech.CustomerApp.Core", "InnoTech.CustomerApp.Core\InnoTech.CustomerApp.Core.csproj", "{18843A82-0AFB-4B8E-B7D5-D1162B88594D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerApp.Infrastructure.SQL", "CustomerApp.Infrastructure.SQL\CustomerApp.Infrastructure.SQL.csproj", "{7784A89C-C7CD-48EA-BA58-469D069544CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoTech.CustomerApp.Infrastructure.SQL", "InnoTech.CustomerApp.Infrastructure.SQL\InnoTech.CustomerApp.Infrastructure.SQL.csproj", "{7784A89C-C7CD-48EA-BA58-469D069544CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{830FBF3E-1D1E-4EE6-B691-A714EE5A51AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerApp.Core.Test", "CustomerApp.Core.Test\CustomerApp.Core.Test.csproj", "{88DF8F78-5489-42DA-86EE-820DAA25B604}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoTech.CustomerApp.Core.Test", "InnoTech.CustomerApp.Core.Test\InnoTech.CustomerApp.Core.Test.csproj", "{88DF8F78-5489-42DA-86EE-820DAA25B604}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerApp.Domain", "CustomerApp.Domain\CustomerApp.Domain.csproj", "{BC3C7D91-7B3D-47DA-9740-35F8E158D892}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoTech.CustomerApp.Domain", "InnoTech.CustomerApp.Domain\InnoTech.CustomerApp.Domain.csproj", "{BC3C7D91-7B3D-47DA-9740-35F8E158D892}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

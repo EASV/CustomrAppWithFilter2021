@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <LangVersion>9</LangVersion>
+        <AssemblyName>InnoTech.CustomerApp.Core</AssemblyName>
+        <RootNamespace>InnoTech.CustomerApp.Core</RootNamespace>
+    </PropertyGroup>
+
+</Project>

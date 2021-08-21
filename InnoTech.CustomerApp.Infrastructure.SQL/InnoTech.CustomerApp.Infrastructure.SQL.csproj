@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <LangVersion>9</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="10.1.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\InnoTech.CustomerApp.Core\InnoTech.CustomerApp.Core.csproj" />
+      <ProjectReference Include="..\InnoTech.CustomerApp.Domain\InnoTech.CustomerApp.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
