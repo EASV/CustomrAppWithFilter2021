@@ -30,5 +30,13 @@ namespace InnoTech.CustomerApp.Core.Test.ApplicationService.Validators
             Action action = () => validator.DefaultValidation(new Address(){Id = 0} as Address);
             action.Should().Throw<NullReferenceException>().WithMessage("Address Id Cannot be less then 1");
         }
+
+        [Fact]
+        public void DefaultValidation_WithAddressNameLessThenTwoCharacters_ShouldThrowException()
+        {
+            var validator = new AddressValidator();
+            Action action = () => validator.DefaultValidation(new Address(){Id = 1, StreetName = "A"} as Address);
+            action.Should().Throw<ArgumentException>().WithMessage("Address StreetName Cannot be less then 2 characters");
+        }
     }
 }

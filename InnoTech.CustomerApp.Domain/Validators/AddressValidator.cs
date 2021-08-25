@@ -16,6 +16,11 @@ namespace InnoTech.CustomerApp.Domain.Validators
             {
                 throw new NullReferenceException("Address Id Cannot be less then 1");
             }
+
+            if (address.StreetName.Length <= 2)
+            {
+                throw new ArgumentException("Address StreetName Cannot be less then 2 characters");
+            }
         }
     }
 }

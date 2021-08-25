@@ -49,8 +49,7 @@ namespace InnoTech.CustomerApp.Domain.Services
         }
 
         public City Update(City city)
-        {
-            _cityValidator.DefaultValidation(city);
+        {   _cityValidator.DefaultValidation(city);
             return _cityRepository.Update(city);
             /*try
             {

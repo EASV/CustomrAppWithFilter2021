@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoTech.CustomerApp.Infras
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{830FBF3E-1D1E-4EE6-B691-A714EE5A51AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoTech.CustomerApp.Core.Test", "InnoTech.CustomerApp.Core.Test\InnoTech.CustomerApp.Core.Test.csproj", "{88DF8F78-5489-42DA-86EE-820DAA25B604}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoTech.CustomerApp.Domain.Test", "InnoTech.CustomerApp.Domain.Test\InnoTech.CustomerApp.Domain.Test.csproj", "{88DF8F78-5489-42DA-86EE-820DAA25B604}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoTech.CustomerApp.Domain", "InnoTech.CustomerApp.Domain\InnoTech.CustomerApp.Domain.csproj", "{BC3C7D91-7B3D-47DA-9740-35F8E158D892}"
 EndProject
